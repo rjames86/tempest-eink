@@ -78,9 +78,39 @@ draw.text(
     fill=0,
 )
 
+# Draw feels like
+feels_like_temp = "%.1f" % (forecast.current_conditions.feels_like)
+font_width, font_height = font18.getsize(feels_like_temp)
+draw.text(
+    (((x1 - x0) // 8) - (font_width // 2), top_padding + 50),
+    feels_like_temp,
+    font=font18,
+    fill=0,
+)
+
+# Draw Humidity
+relative_humidity = "%.1f" % (forecast.current_conditions.relative_humidity)
+font_width, font_height = font18.getsize(relative_humidity)
+draw.text(
+    (((x1 - x0) // 8) - (font_width // 2), top_padding + 80),
+    relative_humidity,
+    font=font18,
+    fill=0,
+)
+
+# Draw Pressure
+sea_level_pressure = "%.1f" % (forecast.current_conditions.sea_level_pressure)
+font_width, font_height = font18.getsize(sea_level_pressure)
+draw.text(
+    (((x1 - x0) // 8) - (font_width // 2), top_padding + 110),
+    sea_level_pressure,
+    font=font18,
+    fill=0,
+)
+
 
 # Draw Condition icon
-icon_font_width, font_height = font48.getsize(
+icon_font_width, icon_font_height = font48.getsize(
     forecast.current_conditions.get_icon_letter()
 )
 draw.text(
@@ -92,11 +122,11 @@ draw.text(
 
 # Draw conditions
 conditions = forecast.current_conditions.conditions
-font_width, font_height = font48.getsize(conditions)
+font_width, font_height = font18.getsize(conditions)
 draw.text(
-    (((x1 - x0) * 3 // 8) - (font_width // 2), top_padding + font_height + 5),
+    (((x1 - x0) * 3 // 8) - (font_width // 2), top_padding + icon_font_height + 20),
     conditions,
-    font=font24,
+    font=font18,
     fill=0,
 )
 
