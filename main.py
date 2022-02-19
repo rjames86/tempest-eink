@@ -61,13 +61,17 @@ draw.rectangle(full_rect, fill=255, outline=0)
 draw.rectangle(half_rect, fill=255, outline=0)
 draw.rectangle(quarter_rect, fill=255, outline=0)
 
-air_temp = "%.1f%s" % (
-    forecast.current_conditions.air_temperature,
-    forecast.units.units_temp_letter(),
-)
+air_temp = "%.1f" % (forecast.current_conditions.air_temperature)
 font_width, font_height = font48.getsize(air_temp)
 draw.text(
     (((x1 - x0) // 8) - (font_width // 2), top_padding + 10),
+    air_temp,
+    font=font48,
+    fill=0,
+)
+
+draw.text(
+    (((x1 - x0) // 8) + (font_width // 2), top_padding + 10),
     air_temp,
     font=font48,
     fill=0,
