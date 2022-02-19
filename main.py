@@ -99,7 +99,7 @@ draw.text(
 )
 
 # Draw Pressure
-sea_level_pressure = "%.1f %s" % (
+sea_level_pressure = "%.1f %% %s" % (
     forecast.current_conditions.sea_level_pressure,
     forecast.units.units_pressure,
 )
@@ -132,6 +132,27 @@ draw.text(
     font=font18,
     fill=0,
 )
+
+# Draw wind and direction
+wind_direction = forecast.current_conditions.wind_direction
+wind_direction_icon = Image.open("./images/cc-wind.svg")
+wind_text = "%s %s %s" % (
+    forecast.current_conditions.wind_direction_cardinal,
+    forecast.current_conditions.wind_avg,
+    forecast.units.units_wind,
+)
+font_width, font_height = font18.getsize(wind_text)
+rotated_wind_direction_icon = wind_direction_icon.rotate(wind_direction)
+draw.text(
+    (((x1 - x0) * 3 // 8) - (font_width // 2), top_padding + 140),
+    conditions,
+    font=font18,
+    fill=0,
+)
+Himage.paste(
+    rotated_wind_direction_icon, (((x1 - x0) * 3 // 8) - font_width, top_padding + 140)
+)
+
 
 epd.display(epd.getbuffer(Himage))
 
