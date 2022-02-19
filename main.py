@@ -70,10 +70,11 @@ draw.text(
     fill=0,
 )
 
+print("here it is", forecast.units.units_temp_letter())
 draw.text(
     (((x1 - x0) // 8) + (font_width // 2), top_padding + 10),
-    air_temp,
-    font=font48,
+    forecast.units.units_temp_letter(),
+    font=icon_font,
     fill=0,
 )
 
