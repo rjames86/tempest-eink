@@ -36,10 +36,30 @@ font18 = ImageFont.truetype("./fonts/Font.ttc", 18)
 logging.info("1.Drawing on the Horizontal image...")
 Himage = Image.new("1", (epd.width, epd.height), 255)  # 255: clear the frame
 draw = ImageDraw.Draw(Himage)
-draw.text((10, 0), forecast.current_conditions.conditions, font=font24, fill=0)
-draw.text((10, 20), forecast.current_conditions.air_temperature, font=font24, fill=0)
-draw.text((150, 0), forecast.current_conditions.wind_direction, font=font24, fill=0)
+# draw.text((10, 0), "%s" % forecast.current_conditions.conditions, font=font24, fill=0)
+# draw.text(
+#     (50, 20), "%s" % forecast.current_conditions.air_temperature, font=font24, fill=0
+# )
+# draw.text(
+#     (100, 0), "%s" % forecast.current_conditions.wind_direction, font=font24, fill=0
+# )
 
+# Create the bounding box for current conditions
+side_padding = 5
+top_padding = 10
+x0, y0 = (0 + side_padding), (0 + top_padding)
+x1, y1 = (epd.width - side_padding), (epd.height // 3)
+
+draw.rectangle([x0, y0, x1, y1], fill=255, outline=0)
+draw.text(
+    (side_padding + 5, top_padding + 10),
+    "Conditions: %s" % forecast.current_conditions.conditions,
+    font=font24,
+    fill=0,
+)
+
+
+epd.display(epd.getbuffer(Himage))
 time.sleep(15)
 
 epd.Clear()
