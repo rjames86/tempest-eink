@@ -57,10 +57,12 @@ half_rect = [x0 // 2, y0 // 2, x1 // 2, y1 // 2]
 draw.rectangle(full_rect, fill=255, outline=0)
 draw.rectangle(half_rect, fill=255, outline=0)
 
-font_width, font_height = font36.getsize(forecast.current_conditions.air_temperature)
+
+air_temp = "%s" % forecast.current_conditions.air_temperature
+font_width, font_height = font36.getsize(air_temp)
 draw.text(
     ((x1 - x0) // 4 - (font_width / 2), 10),
-    forecast.current_conditions.air_temperature,
+    air_temp,
     font=font36,
     fill=0,
 )
