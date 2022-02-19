@@ -134,23 +134,26 @@ draw.text(
 )
 
 # Draw wind and direction
-wind_direction = forecast.current_conditions.wind_direction
-wind_direction_icon = Image.open("./images/cc-wind.bmp")
 wind_text = "%s %s %s" % (
     forecast.current_conditions.wind_direction_cardinal,
     forecast.current_conditions.wind_avg,
     forecast.units.units_wind,
 )
 font_width, font_height = font18.getsize(wind_text)
-rotated_wind_direction_icon = wind_direction_icon.rotate(wind_direction)
 draw.text(
     (((x1 - x0) * 3 // 8) - (font_width // 2), top_padding + 140),
     conditions,
     font=font18,
     fill=0,
 )
-Himage.paste(
-    rotated_wind_direction_icon, (((x1 - x0) * 3 // 8) - font_width, top_padding + 140)
+wind_direction = forecast.current_conditions.wind_direction
+circle_middle = (((x1 - x0) * 3 // 8) - font_width, top_padding + 140)
+draw.pieslice(
+    [circle_middle + 5] * 4,
+    start=wind_direction + 5,
+    end=wind_direction + 5,
+    fill=0,
+    outline=0,
 )
 
 
