@@ -89,20 +89,23 @@ draw.text(
 )
 
 # Draw Humidity
-relative_humidity = "%.1f" % (forecast.current_conditions.relative_humidity)
+relative_humidity = "%.0f humidity" % (forecast.current_conditions.relative_humidity)
 font_width, font_height = font18.getsize(relative_humidity)
 draw.text(
-    (((x1 - x0) // 8) - (font_width // 2), top_padding + 110),
+    (((x1 - x0) // 8) - (font_width // 2), top_padding + 140),
     relative_humidity,
     font=font18,
     fill=0,
 )
 
 # Draw Pressure
-sea_level_pressure = "%.1f %s" % (forecast.current_conditions.sea_level_pressure, forecast.units.units_pressure)
+sea_level_pressure = "%.1f %s" % (
+    forecast.current_conditions.sea_level_pressure,
+    forecast.units.units_pressure,
+)
 font_width, font_height = font18.getsize(sea_level_pressure)
 draw.text(
-    (((x1 - x0) // 8) - (font_width // 2), top_padding + 130),
+    (((x1 - x0) // 8) - (font_width // 2), top_padding + 180),
     sea_level_pressure,
     font=font18,
     fill=0,
