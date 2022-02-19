@@ -32,6 +32,8 @@ epd.Clear()
 font24 = ImageFont.truetype("./fonts/Font.ttc", 24)
 font18 = ImageFont.truetype("./fonts/Font.ttc", 18)
 font36 = ImageFont.truetype("./fonts/Font.ttc", 36)
+font48 = ImageFont.truetype("./fonts/Font.ttc", 48)
+icon_font = ImageFont.truetype("./fonts/meteocons.ttf", 48)
 
 # Drawing on the Horizontal image
 logging.info("1.Drawing on the Horizontal image...")
@@ -52,18 +54,26 @@ x0, y0 = (0 + side_padding), (0 + top_padding)
 x1, y1 = (epd.width - side_padding), ((epd.height - top_padding) * 2 // 3)
 
 full_rect = [x0, y0, x1, y1]
-half_rect = [x0 // 2, y0 // 2, x1 // 2, y1 // 2]
+half_rect = [x0, y0, x1 // 2, y1]
+quarter_rect = [x0, y0, x1 // 4, y1]
 
 draw.rectangle(full_rect, fill=255, outline=0)
 draw.rectangle(half_rect, fill=255, outline=0)
-
+draw.rectangle(quarter_rect, fill=255, outline=0)
 
 air_temp = "%s" % forecast.current_conditions.air_temperature
-font_width, font_height = font36.getsize(air_temp)
+font_width, font_height = font48.getsize(air_temp)
 draw.text(
-    ((x1 - x0) // 4 - (font_width / 2), 10),
+    (side_padding + ((x1 - x0) // 8) - (font_width // 2), top_padding + 10),
     air_temp,
-    font=font36,
+    font=font48,
+    fill=0,
+)
+
+draw.text(
+    (side_padding + ((x1 - x0) * 3 // 8) - (font_width // 2), top_padding + 10),
+    forecast.current_conditions.get_icon_letter(),
+    font=icon_font,
     fill=0,
 )
 
