@@ -160,6 +160,12 @@ class BetterForecastUnits:
             json_data.get("units_air_density"),
         )
 
+    def units_temp_letter(self):
+        if self.units_temp == "f":
+            return "+"
+        else:
+            return "*"
+
 
 class BetterForecastCurrentConditions:
     def __init__(
