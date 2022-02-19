@@ -88,3 +88,6 @@ draw.text(
 
 
 epd.display(epd.getbuffer(Himage))
+
+time.sleep(60 * 3)
+epd.Clear()
