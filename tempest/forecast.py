@@ -340,5 +340,16 @@ class BetterForecast:
 
 
 def get_forecast():
-    resp = fetch_data(FORECAST_URL, dict(station_id=55396, token=TOKEN))
+    resp = fetch_data(
+        FORECAST_URL,
+        dict(
+            station_id=55396,
+            token=TOKEN,
+            units_temp="f",
+            units_wind="mph",
+            units_pressure="inhg",
+            units_precip="in",
+            units_distance="mi",
+        ),
+    )
     return BetterForecast.from_response(resp)

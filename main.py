@@ -79,6 +79,3 @@ draw.text(
 
 
 epd.display(epd.getbuffer(Himage))
-time.sleep(15)
-
-epd.Clear()
