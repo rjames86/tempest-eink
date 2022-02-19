@@ -31,6 +31,7 @@ epd.Clear()
 
 font24 = ImageFont.truetype("./fonts/Font.ttc", 24)
 font18 = ImageFont.truetype("./fonts/Font.ttc", 18)
+font36 = ImageFont.truetype("./fonts/Font.ttc", 36)
 
 # Drawing on the Horizontal image
 logging.info("1.Drawing on the Horizontal image...")
@@ -46,15 +47,21 @@ draw = ImageDraw.Draw(Himage)
 
 # Create the bounding box for current conditions
 side_padding = 5
-top_padding = 10
+top_padding = 30
 x0, y0 = (0 + side_padding), (0 + top_padding)
-x1, y1 = (epd.width - side_padding), (epd.height // 3)
+x1, y1 = (epd.width - side_padding), ((epd.height - top_padding) * 2 // 3)
 
-draw.rectangle([x0, y0, x1, y1], fill=255, outline=0)
+full_rect = [x0, y0, x1, y1]
+half_rect = [x0 // 2, y0 // 2, x1 // 2, y1 // 2]
+
+draw.rectangle(full_rect, fill=255, outline=0)
+draw.rectangle(half_rect, fill=255, outline=0)
+
+font_width, font_height = font36.getsize(forecast.current_conditions.air_temperature)
 draw.text(
-    (side_padding + 5, top_padding + 10),
-    "Conditions: %s" % forecast.current_conditions.conditions,
-    font=font24,
+    ((x1 - x0) // 4 - (font_width / 2), 10),
+    forecast.current_conditions.air_temperature,
+    font=font36,
     fill=0,
 )
 
