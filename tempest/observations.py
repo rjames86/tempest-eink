@@ -1,6 +1,6 @@
 import json
 from webbrowser import get
-from request import fetch_data, DEVICE_OBSERVATIONS
+from tempest.request import fetch_data, DEVICE_OBSERVATIONS
 from datetime import datetime, timedelta
 
 from os import environ
@@ -13,18 +13,6 @@ ONE_DAY_AGO = NOW - timedelta(hours=24)
 DEVICE_ID = 155234
 # FIXME
 TOKEN = environ["TEMPEST_TOKEN"]
-
-
-def get_observations(type):
-    return fetch_data(
-        DEVICE_OBSERVATIONS(DEVICE_ID),
-        dict(
-            type=type,
-            time_start=ONE_DAY_AGO.strftime("%s"),
-            time_end=NOW.strftime("%s"),
-            token=TOKEN,
-        ),
-    )
 
 
 class Observation:
@@ -222,7 +210,14 @@ class Observations(list):
         return self
 
 
-obs_resp = get_observations("obs_st")
-obs = Observations.from_response(obs_resp)
-
-print(obs)
+def get_observations(type):
+    resp = fetch_data(
+        DEVICE_OBSERVATIONS(DEVICE_ID),
+        dict(
+            type=type,
+            time_start=ONE_DAY_AGO.strftime("%s"),
+            time_end=NOW.strftime("%s"),
+            token=TOKEN,
+        ),
+    )
+    return Observations.from_response(resp)
