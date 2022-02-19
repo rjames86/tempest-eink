@@ -161,7 +161,6 @@ class BetterForecastUnits:
         )
 
     def units_temp_letter(self):
-        print("calling units temp", self.units_temp)
         if self.units_temp == "f":
             return "+"
         else:

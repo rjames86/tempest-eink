@@ -61,6 +61,8 @@ draw.rectangle(full_rect, fill=255, outline=0)
 draw.rectangle(half_rect, fill=255, outline=0)
 draw.rectangle(quarter_rect, fill=255, outline=0)
 
+
+# Draw Air temperature
 air_temp = "%.1f" % (forecast.current_conditions.air_temperature)
 font_width, font_height = font48.getsize(air_temp)
 draw.text(
@@ -69,8 +71,6 @@ draw.text(
     font=font48,
     fill=0,
 )
-
-print("here it is", forecast.units.units_temp_letter())
 draw.text(
     (((x1 - x0) // 8) + (font_width // 2), top_padding + 10),
     forecast.units.units_temp_letter(),
@@ -78,14 +78,27 @@ draw.text(
     fill=0,
 )
 
-font_width, font_height = font48.getsize(forecast.current_conditions.get_icon_letter())
+
+# Draw Condition icon
+icon_font_width, font_height = font48.getsize(
+    forecast.current_conditions.get_icon_letter()
+)
 draw.text(
-    (((x1 - x0) * 3 // 8) - (font_width // 2), top_padding + 10),
+    (((x1 - x0) * 3 // 8) - (icon_font_width // 2), top_padding + 10),
     forecast.current_conditions.get_icon_letter(),
     font=icon_font,
     fill=0,
 )
 
+# Draw conditions
+conditions = forecast.current_conditions.conditions
+font_width, font_height = font48.getsize(conditions)
+draw.text(
+    (((x1 - x0) * 3 // 8) - (font_width // 2), top_padding + font_height + 5),
+    conditions,
+    font=font24,
+    fill=0,
+)
 
 epd.display(epd.getbuffer(Himage))
 
