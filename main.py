@@ -149,14 +149,21 @@ draw.text(
 wind_direction = forecast.current_conditions.wind_direction
 print(wind_direction, wind_text)
 circle_x, circle_y = (((x1 - x0) * 3 // 8) - (font_width // 2), top_padding + 140)
-circle_size = 30
-draw.ellipse(
-    [circle_x - 35, circle_y - 7.5, circle_x - 5, circle_y + 22.5], fill=255, outline=0
-)
+circle_diameter = 20
+circle_radius = circle_diameter // 2
+circle_padding = 10
+circle_coords = [
+    circle_x - circle_diameter - circle_padding,
+    circle_y - (circle_radius // 2),
+    circle_x - circle_padding,
+    circle_y + circle_diameter - (circle_radius // 2),
+]
+
+draw.ellipse(circle_coords, fill=255, outline=0)
 draw.pieslice(
-    [circle_x - 35, circle_y - 7.5, circle_x - 5, circle_y + 22.5],
-    start=-wind_direction - 10,
-    end=-wind_direction + 10,
+    circle_coords,
+    start=-wind_direction - 15,
+    end=-wind_direction + 15,
     fill=0,
     outline=0,
 )
