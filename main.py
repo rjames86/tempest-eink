@@ -135,7 +135,7 @@ draw.text(
 
 # Draw wind and direction
 wind_direction = forecast.current_conditions.wind_direction
-wind_direction_icon = Image.open("./images/cc-wind.svg")
+wind_direction_icon = Image.open("./images/cc-wind.png")
 wind_text = "%s %s %s" % (
     forecast.current_conditions.wind_direction_cardinal,
     forecast.current_conditions.wind_avg,
