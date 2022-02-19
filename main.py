@@ -79,10 +79,10 @@ draw.text(
 )
 
 # Draw feels like
-feels_like_temp = "%.1f" % (forecast.current_conditions.feels_like)
+feels_like_temp = "Feels Like %.0f" % (forecast.current_conditions.feels_like)
 font_width, font_height = font18.getsize(feels_like_temp)
 draw.text(
-    (((x1 - x0) // 8) - (font_width // 2), top_padding + 50),
+    (((x1 - x0) // 8) - (font_width // 2), top_padding + 70),
     feels_like_temp,
     font=font18,
     fill=0,
@@ -92,17 +92,17 @@ draw.text(
 relative_humidity = "%.1f" % (forecast.current_conditions.relative_humidity)
 font_width, font_height = font18.getsize(relative_humidity)
 draw.text(
-    (((x1 - x0) // 8) - (font_width // 2), top_padding + 80),
+    (((x1 - x0) // 8) - (font_width // 2), top_padding + 110),
     relative_humidity,
     font=font18,
     fill=0,
 )
 
 # Draw Pressure
-sea_level_pressure = "%.1f" % (forecast.current_conditions.sea_level_pressure)
+sea_level_pressure = "%.1f %s" % (forecast.current_conditions.sea_level_pressure, forecast.units.units_pressure)
 font_width, font_height = font18.getsize(sea_level_pressure)
 draw.text(
-    (((x1 - x0) // 8) - (font_width // 2), top_padding + 110),
+    (((x1 - x0) // 8) - (font_width // 2), top_padding + 130),
     sea_level_pressure,
     font=font18,
     fill=0,
