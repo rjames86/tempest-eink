@@ -22,4 +22,13 @@ ax.xaxis.set_major_formatter(formatter)
 
 fig.autofmt_xdate()
 
-plt.show()
+# plt.show()
+
+fig.savefig("./temp.png")
+
+# open image as PIL object
+img = Image.open("./temp.png")
+pil_img = Image.frombytes(
+    "RGB", fig.canvas.get_width_height(), fig.canvas.tostring_rgb()
+)
+pil_img.show()
