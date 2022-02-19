@@ -142,7 +142,7 @@ wind_text = "%s %s %s" % (
 font_width, font_height = font18.getsize(wind_text)
 draw.text(
     (((x1 - x0) * 3 // 8) - (font_width // 2), top_padding + 140),
-    conditions,
+    wind_text,
     font=font18,
     fill=0,
 )
