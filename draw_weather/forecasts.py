@@ -16,15 +16,17 @@ class Forecasts:
         self.forecast = forecast
         self.observations = observations
 
-        self.width = x1 - x0
+        x0, y0, x1, y1 = rectangle_boundary
+        self.width = (x1 - x0) / 2
         self.height = y1 - y0
 
-        x0, y0, x1, y1 = rectangle_boundary
-        # Take half of the rectangle boundary for current conditions
+        # Take right half of the rectangle boundary for forecast
         self.x0 = self.width / 2
         self.y0 = y0
         self.x1 = self.width
         self.y1 = y1 / 2
+
+        print(self.x0, self.y0, self.x1, self.y1)
 
         # number of squares we show horizontally
         self.number_squares = 4
@@ -32,9 +34,12 @@ class Forecasts:
         self.square_height = self.height / 2
 
         for i in range(self.number_squares):
-            x0, y0 = [i * self.square_width, self.y0]
-            x1, y1 = [2 * i * self.square_width, self.square_height]
-            self.draw.rectangle([self.x0, y0, self.x1, self.y1], fill=255, outline=0)
+            xx0, yy0 = [i * self.square_width, self.y0]
+            xx1, yy1 = [
+                2 * i * self.square_width,
+                self.square_height,
+            ]
+            self.draw.rectangle([xx0, yy0, xx1, yy1], fill=255, outline=0)
 
     def create(self):
         pass
