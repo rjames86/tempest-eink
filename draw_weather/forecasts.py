@@ -47,20 +47,23 @@ class Forecasts:
 
     def draw_forecast(self, i):
         forecast = self.forecast.forecast.hourly[i]
+
+        # draw the time
         time = "%s:00" % forecast.local_hour
-        font_width, font_height = font18.getsize(time)
+        time_font_width, time_font_height = font18.getsize(time)
 
         x = (self.width * 9 // 16) - (font_width // 2) + (i * self.square_width)
         y = 10 + self.y0
 
-        # draw the time
         self.draw.text([x, y], time, font=font18, fill=0)
 
         # draw weather condition icon
-        font_width, font_height = medium_icon_font.getsize(forecast.get_icon_letter())
+        condition_font_width, condition_font_height = medium_icon_font.getsize(
+            forecast.get_icon_letter()
+        )
 
         x = (self.width * 9 // 16) - (font_width // 2) + (i * self.square_width)
-        y = 30 + font_height + y
+        y = 30 + time_font_height + y
 
         self.draw.text(
             [x, y],
@@ -74,7 +77,7 @@ class Forecasts:
         font_width, font_height = font18.getsize(air_temp)
 
         x = (self.width * 9 // 16) - (font_width // 2) + (i * self.square_width)
-        y = 10 + font_height + y
+        y = 10 + condition_font_height + y
 
         self.draw.text([x, y], air_temp, font=font18, fill=0)
         self.draw.text(
