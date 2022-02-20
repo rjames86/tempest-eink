@@ -148,7 +148,7 @@ class CurrentConditions:
         font_width, font_height = font48.getsize(air_temp)
 
         x = (self.width // 8) - (font_width // 2)
-        y = 10 + y
+        y = 30 + y
 
         self.draw.text([x, y], air_temp, font=font48, fill=0)
         self.draw.text(
