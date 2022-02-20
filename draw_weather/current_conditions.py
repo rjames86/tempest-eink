@@ -27,10 +27,91 @@ class CurrentConditions:
         self.draw.rectangle([self.x0, self.y0, self.x1, self.y1], fill=255, outline=0)
 
     def create(self):
+        # left side
         x, y = self.draw_air_temperature(self.x0, self.y0)
         x, y = self.draw_feels_like(x, y)
         x, y = self.draw_humidity(x, y)
         x, y = self.draw_pressure(x, y)
+
+        # right side
+        x, y = self.draw_condition_icon(x, y)
+        x, y = self.draw_conditions(x, y)
+        x, y = self.draw_wind(x, y)
+
+    def draw_condition_icon(self, x, y):
+        font_width, font_height = font48.getsize(
+            self.forecast.current_conditions.get_icon_letter()
+        )
+
+        x = (self.width * 3 // 8) - (font_width // 2)
+        y = 10 + y
+
+        self.draw.text(
+            [x, y],
+            self.forecast.current_conditions.get_icon_letter(),
+            font=icon_font,
+            fill=0,
+        )
+        return x, y + font_height
+
+    def draw_conditions(self, x, y):
+        conditions = self.forecast.current_conditions.conditions
+        font_width, font_height = font18.getsize(conditions)
+
+        x = (self.width * 3 // 8) - (font_width // 2)
+        y = 20 + y
+
+        self.draw.text(
+            [x, y],
+            conditions,
+            font=font18,
+            fill=0,
+        )
+        return x, y + font_height
+
+    def draw_wind(self, x, y):
+        wind_text = "%s %s %s" % (
+            self.forecast.current_conditions.wind_direction_cardinal,
+            self.forecast.current_conditions.wind_avg,
+            self.forecast.units.units_wind,
+        )
+        font_width, font_height = font18.getsize(wind_text)
+        x = (self.width * 3 // 8) - (font_width // 2)
+        y = 10 + y
+
+        self.draw.text(
+            [x, y],
+            wind_text,
+            font=font18,
+            fill=0,
+        )
+
+        wind_direction = self.forecast.current_conditions.wind_direction
+
+        circle_diameter = 30
+        circle_radius = circle_diameter // 2
+        circle_padding = 10
+        circle_coords = [
+            x - (circle_diameter + circle_padding),
+            y - (circle_radius // 2),
+            x - circle_padding,
+            y + (circle_diameter - (circle_radius // 2)),
+        ]
+
+        self.draw.ellipse(
+            circle_coords,
+            fill=255,
+            outline=0,
+        )
+        self.draw.pieslice(
+            circle_coords,
+            start=-wind_direction - 10,
+            end=-wind_direction + 10,
+            fill=0,
+            outline=0,
+        )
+
+        return x, y + font_height
 
     def draw_air_temperature(self, x, y):
         air_temp = "%.1f" % (self.forecast.current_conditions.air_temperature)
