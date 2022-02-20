@@ -52,7 +52,7 @@ class Forecasts:
         time = "%s:00" % forecast.local_hour
         time_font_width, time_font_height = font18.getsize(time)
 
-        x = (self.width * 9 // 16) - (font_width // 2) + (i * self.square_width)
+        x = (self.width * 9 // 16) - (time_font_width // 2) + (i * self.square_width)
         y = 10 + self.y0
 
         self.draw.text([x, y], time, font=font18, fill=0)
@@ -62,7 +62,11 @@ class Forecasts:
             forecast.get_icon_letter()
         )
 
-        x = (self.width * 9 // 16) - (font_width // 2) + (i * self.square_width)
+        x = (
+            (self.width * 9 // 16)
+            - (condition_font_width // 2)
+            + (i * self.square_width)
+        )
         y = 30 + time_font_height + y
 
         self.draw.text(
@@ -74,14 +78,14 @@ class Forecasts:
 
         # draw air temperature
         air_temp = "%.1f" % (forecast.air_temperature)
-        font_width, font_height = font18.getsize(air_temp)
+        air_font_width, font_height = font18.getsize(air_temp)
 
-        x = (self.width * 9 // 16) - (font_width // 2) + (i * self.square_width)
+        x = (self.width * 9 // 16) - (air_font_width // 2) + (i * self.square_width)
         y = 10 + condition_font_height + y
 
         self.draw.text([x, y], air_temp, font=font18, fill=0)
         self.draw.text(
-            [x + font_width, y],
+            [x + air_font_width, y],
             self.forecast.units.units_temp_letter(),
             font=medium_icon_font,
             fill=0,
