@@ -50,14 +50,14 @@ class Forecasts:
         time = "%s:00" % forecast.local_hour
         font_width, font_height = font18.getsize(time)
 
-        x = self.width + (font_width // 2) + (i * self.square_width)
+        x = (self.width * 5 // 8) - (font_width // 2) + (i * self.square_width)
         y = 10 + self.y0
         self.draw.text([x, y], time, font=font18, fill=0)
 
         font_width, font_height = medium_icon_font.getsize(forecast.get_icon_letter())
 
-        x = self.width + (font_width // 2) + (i * self.square_width)
-        y = 10 + y
+        x = (self.width * 5 // 8) - (font_width // 2) + (i * self.square_width)
+        y = 30 + y
 
         self.draw.text(
             [x, y],
