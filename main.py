@@ -1,6 +1,7 @@
 from tempest.forecast import get_forecast
 from tempest.observations import get_observations
 from draw_weather.current_conditions import CurrentConditions
+from draw_weather.forecasts import Forecasts
 
 forecast = get_forecast()
 observations = get_observations()
@@ -60,6 +61,14 @@ c = CurrentConditions(
     full_rect,
 )
 c.create()
+
+f = Forecasts(
+    Himage,
+    forecast,
+    observations,
+    full_rect,
+)
+f.create()
 
 epd.display(epd.getbuffer(Himage))
 
