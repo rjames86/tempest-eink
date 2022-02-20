@@ -63,6 +63,30 @@ class BetterForecastHourlyForecast:
             json_data.get("local_day"),
         )
 
+    def get_icon_letter(self):
+        icon_mapping = {
+            "clear-day": "B",
+            "clear-night": "C",
+            "cloudy": "N",
+            "foggy": "M",
+            "partly-cloudy-day": "H",
+            "partly-cloudy-night": "I",
+            "possibly-rainy-day": "Q",
+            "possibly-rainy-night": "Q",
+            "possibly-sleet-day": "X",
+            "possibly-sleet-night": "X",
+            "possibly-snow-day": "W",
+            "possibly-snow-night": "W",
+            "possibly-thunderstorm-day": "0",
+            "possibly-thunderstorm-night": "0",
+            "rainy": "R",
+            "sleet": "X",
+            "snow": "W",
+            "thunderstorm": "0",
+            "windy": "F",
+        }
+        return icon_mapping.get(self.icon, ")")
+
 
 class BetterForecastDailyForecast:
     def __init__(
