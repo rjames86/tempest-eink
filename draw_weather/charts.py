@@ -37,7 +37,7 @@ class Charts:
 
     def create(self):
         charts = [
-            ("Pressure", "pressure"),
+            ("Pressure", "sea_level_pressure"),
             ("Temperature", "air_temperature"),
             ("Humidity", "relative_humidity"),
         ]

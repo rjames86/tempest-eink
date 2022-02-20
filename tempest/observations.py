@@ -1,5 +1,6 @@
 from tempest.request import fetch_data, DEVICE_OBSERVATIONS_URL
 from datetime import datetime, timedelta
+import math
 
 from os import environ
 
@@ -144,8 +145,19 @@ class Tempest(Observation):
         return self.values[5]
 
     @property
+    def sea_level_pressure(self):
+        # https://weatherflow.github.io/Tempest/api/derived-metric-formulas.html
+        e = 1065.0316162109375  # hard coded elevation
+        sea_level_pressure = self.pressure * pow(
+            1
+            + pow(1013.25 / self.pressure, 1.865825 / 9.80665) * (0.0065 * e / 288.15),
+            9.80665 / 1.865825,
+        )
+        return sea_level_pressure * 0.029529980164712
+
+    @property
     def pressure(self):
-        return self.values[6]
+        return self.values[6] * 0.029529980164712
 
     @property
     def air_temperature(self):
@@ -202,6 +214,7 @@ class Observations(list):
         self = cls()
         tempest_type = json_data["type"]
         observations = json_data.get("obs") or []
+        print(tempest_type)
         for observation in observations:
             if tempest_type == "obs_st":
                 self.append(Tempest(tempest_type, observation))
@@ -212,7 +225,7 @@ class Observations(list):
         return self
 
 
-def get_observations(obs_type="obs_st"):
+def get_observations(obs_type="obs_air"):
     resp = fetch_data(
         DEVICE_OBSERVATIONS_URL(DEVICE_ID),
         dict(
