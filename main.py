@@ -48,20 +48,27 @@ draw = ImageDraw.Draw(Himage)
 #     (100, 0), "%s" % forecast.current_conditions.wind_direction, font=font24, fill=0
 # )
 
-c = CurrentConditions()
-
 
 # # Create the bounding box for current conditions
-# side_padding = 5
-# top_padding = 30
-# x0, y0 = (0 + side_padding), (0 + top_padding)
-# x1, y1 = (epd.width - side_padding), ((epd.height - top_padding) * 2 // 3)
+side_padding = 5
+top_padding = 30
+x0, y0 = (0 + side_padding), (0 + top_padding)
+x1, y1 = (epd.width - side_padding), ((epd.height - top_padding) * 2 // 3)
 
-# full_rect = [x0, y0, x1, y1]
-# half_rect = [x0, y0, x1 // 2, y1]
-# quarter_rect = [x0, y0, x1 // 4, y1]
+full_rect = [x0, y0, x1, y1]
+half_rect = [x0, y0, x1 // 2, y1]
+quarter_rect = [x0, y0, x1 // 4, y1]
 
-# draw.rectangle(full_rect, fill=255, outline=0)
+draw.rectangle(full_rect, fill=255, outline=0)
+
+c = CurrentConditions(
+    Himage,
+    forecast,
+    observations,
+    full_rect,
+)
+
+
 # draw.rectangle(half_rect, fill=255, outline=0)
 # draw.rectangle(quarter_rect, fill=255, outline=0)
 
