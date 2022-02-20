@@ -59,7 +59,7 @@ class CurrentConditions:
     def draw_uv(self, x, y):
         font_width, font_height = small_icon_font.getsize("B")  # sun
 
-        x = self.width * 3 // 8
+        x = self.width * 4
         y = 10 + y
 
         self.draw.text(
@@ -72,7 +72,7 @@ class CurrentConditions:
         uv = "%s UV" % self.forecast.current_conditions.uv
         font_width, font_height = font18.getsize(uv)
 
-        text_x = x + font_width + 10
+        text_x = x + font_width
         text_y = y
 
         self.draw.text(
