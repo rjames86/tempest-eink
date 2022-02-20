@@ -3,31 +3,32 @@ from tempest.observations import get_observations
 from draw_weather.current_conditions import CurrentConditions
 from draw_weather.forecasts import Forecasts
 
-forecast = get_forecast()
-observations = get_observations()
-
-datas = [
-    forecast.current_conditions.conditions,
-    forecast.current_conditions.icon,
-    forecast.current_conditions.air_temperature,
-    forecast.current_conditions.sea_level_pressure,
-    forecast.current_conditions.pressure_trend,
-    forecast.current_conditions.relative_humidity,
-    forecast.current_conditions.wind_direction,
-    forecast.current_conditions.wind_direction_cardinal,
-    "-----",
-    observations,
-]
-
-from waveshare_epd import epd7in5_V2
 import time
+from os import environ
 from PIL import Image, ImageDraw, ImageFont
 import logging
 
-logging.info("epd7in5_V2 Demo")
-epd = epd7in5_V2.EPD()
+testing = environ.get('TESTING', False)
 
-logging.info("init and Clear")
+class MockEPD:
+    width = 800
+    height = 480
+    def init(self):
+        pass
+    def Clear(self):
+        pass
+
+if not testing:
+    from waveshare_epd import epd7in5_V2
+    epd = epd7in5_V2.EPD()
+else:
+    epd = MockEPD()
+
+forecast = get_forecast()
+observations = get_observations()
+
+
+
 epd.init()
 epd.Clear()
 
@@ -67,10 +68,14 @@ f = Forecasts(
     forecast,
     observations,
     full_rect,
+    top_padding,
 )
 f.create()
 
-epd.display(epd.getbuffer(Himage))
+if not testing:
+    epd.display(epd.getbuffer(Himage))
 
-time.sleep(60 * 3)
-epd.Clear()
+    time.sleep(60 * 3)
+    epd.Clear()
+else:
+    Himage.show()
