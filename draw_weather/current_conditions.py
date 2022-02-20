@@ -18,7 +18,7 @@ class CurrentConditions:
         x0, y0, x1, y1 = rectangle_boundary
         # Take half of the rectangle boundary for current conditions
         self.x0 = x0
-        self.y0 = y0
+        self.y0 = y0 + 50
         self.x1 = x1 // 2
         self.y1 = y1
 
