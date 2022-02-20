@@ -62,7 +62,7 @@ class CurrentConditions:
         text_font_width, text_font_height = font18.getsize(uv)
 
         text_x = (self.width * 3 // 8) - (text_font_width // 2)
-        text_y = 30 + y
+        text_y = 10 + y
 
         self.draw.text(
             [text_x, text_y],
@@ -76,7 +76,7 @@ class CurrentConditions:
         x = text_x - font_width
 
         self.draw.text(
-            [x, y],
+            [x, y + (text_font_height // 2)],
             "B",
             font=small_icon_font,
             fill=0,
