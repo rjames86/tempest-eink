@@ -34,9 +34,9 @@ class Forecasts:
         self.square_height = self.height / 2
 
         for i in range(self.number_squares):
-            xx0, yy0 = [i * self.square_width, self.y0]
+            xx0, yy0 = [self.x0 + (i * self.square_width), self.y0]
             xx1, yy1 = [
-                2 * i * self.square_width,
+                self.x0 + (2 * i * self.square_width),
                 self.square_height,
             ]
             self.draw.rectangle([xx0, yy0, xx1, yy1], fill=255, outline=0)
