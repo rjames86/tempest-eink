@@ -85,7 +85,7 @@ class CurrentConditions:
         return x, y + text_font_height
 
     def draw_conditions(self, x, y):
-        conditions = self.forecast.current_conditions.conditions
+        conditions = "%s  " % self.forecast.current_conditions.conditions
         font_width, font_height = font18.getsize(conditions)
 
         x = (self.width * 3 // 8) - (font_width // 2)

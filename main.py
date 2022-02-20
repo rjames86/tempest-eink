@@ -66,6 +66,7 @@ def main():
     charts.create()
 
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    draw.text((5, 5), "Last updated: %s   " % now, font=font12, fill=0)
     draw.rectangle(full_rect, fill=255, outline=0)
 
     c = CurrentConditions(
@@ -84,7 +85,6 @@ def main():
         top_padding,
     )
     f.create()
-    draw.text((5, 5), "Last updated: %s" % now, font=font12, fill=0)
 
     if not testing:
         if datetime.now().strftime("%H") == "13":
