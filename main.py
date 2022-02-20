@@ -1,3 +1,4 @@
+from charts import create_chart
 from tempest.forecast import get_forecast
 from tempest.observations import get_observations
 from draw_weather.current_conditions import CurrentConditions
@@ -71,6 +72,10 @@ f = Forecasts(
     top_padding,
 )
 f.create()
+
+fig = create_chart()
+
+Himage.paste(fig.resize((100, 300)), (0, y1))
 
 if not testing:
     epd.display(epd.getbuffer(Himage))

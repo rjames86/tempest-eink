@@ -67,7 +67,6 @@ class Forecasts:
             + ((i % self.number_squares) * self.square_width)
         )
         y = 10 + time_font_height + y
-        print('here', i, x, y)
 
         self.draw.text(
             [x, y],
