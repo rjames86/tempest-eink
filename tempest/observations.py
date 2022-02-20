@@ -157,7 +157,7 @@ class Tempest(Observation):
 
     @property
     def pressure(self):
-        return self.values[6] * 0.029529980164712
+        return self.values[6]
 
     @property
     def air_temperature(self):
@@ -214,7 +214,7 @@ class Observations(list):
         self = cls()
         tempest_type = json_data["type"]
         observations = json_data.get("obs") or []
-        print(tempest_type)
+
         for observation in observations:
             if tempest_type == "obs_st":
                 self.append(Tempest(tempest_type, observation))
