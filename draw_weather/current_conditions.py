@@ -57,13 +57,7 @@ class CurrentConditions:
         x = (self.width // 8) - (font_width // 2)
         y = 10 + y
 
-        self.draw.text([x, y], feels_like_temp, font=font48, fill=0)
-        self.draw.text(
-            [x + font_width, y],
-            self.forecast.units.units_temp_letter(),
-            font=icon_font,
-            fill=0,
-        )
+        self.draw.text([x, y], feels_like_temp, font=font18, fill=0)
         return x, y + font_height
 
     def draw_humidity(self, x, y):
