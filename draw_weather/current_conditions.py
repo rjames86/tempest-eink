@@ -38,10 +38,9 @@ class CurrentConditions:
         x = (self.width // 8) - (font_width // 2)
         y = 10 + y
 
-        self.draw.text(x, y, air_temp, font=font48, fill=0)
+        self.draw.text([x, y], air_temp, font=font48, fill=0)
         self.draw.text(
-            x + font_width,
-            y,
+            [x + font_width, y],
             self.forecast.units.units_temp_letter(),
             font=icon_font,
             fill=0,
@@ -58,8 +57,7 @@ class CurrentConditions:
         y = 10 + y
 
         self.draw.text(
-            x,
-            y,
+            [x, y],
             relative_humidity,
             font=font18,
             fill=0,
@@ -77,8 +75,7 @@ class CurrentConditions:
         y = 10 + y
 
         self.draw.text(
-            x,
-            y,
+            [x, y],
             sea_level_pressure,
             font=font18,
             fill=0,

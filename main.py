@@ -67,6 +67,7 @@ c = CurrentConditions(
     observations,
     full_rect,
 )
+c.create()
 
 
 # draw.rectangle(half_rect, fill=255, outline=0)
