@@ -4,7 +4,7 @@ font18 = ImageFont.truetype("./fonts/Font.ttc", 18)
 font24 = ImageFont.truetype("./fonts/Font.ttc", 24)
 font36 = ImageFont.truetype("./fonts/Font.ttc", 36)
 font48 = ImageFont.truetype("./fonts/Font.ttc", 48)
-icon_font = ImageFont.truetype("./fonts/meteocons.ttf", 48)
+icon_font = ImageFont.truetype("./fonts/meteocons.ttf", 54)
 
 
 class CurrentConditions:
@@ -34,7 +34,7 @@ class CurrentConditions:
         x, y = self.draw_pressure(x, y)
 
         # right side
-        x, y = self.draw_condition_icon(x, y)
+        x, y = self.draw_condition_icon(self.x0, self.y0)
         x, y = self.draw_conditions(x, y)
         x, y = self.draw_wind(x, y)
 
@@ -88,7 +88,7 @@ class CurrentConditions:
 
         wind_direction = self.forecast.current_conditions.wind_direction
 
-        circle_diameter = 30
+        circle_diameter = 24
         circle_radius = circle_diameter // 2
         circle_padding = 10
         circle_coords = [
