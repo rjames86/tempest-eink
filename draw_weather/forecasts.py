@@ -17,11 +17,11 @@ class Forecasts:
         self.observations = observations
 
         x0, y0, x1, y1 = rectangle_boundary
-        self.width = (x1 - x0) // 2
+        self.width = x1 - x0
         self.height = y1 - y0
 
         # Take right half of the rectangle boundary for forecast
-        self.x0 = self.width
+        self.x0 = self.width // 2
         self.y0 = y0
         self.x1 = x1
         self.y1 = y1 // 2
@@ -30,7 +30,7 @@ class Forecasts:
 
         # number of squares we show horizontally
         self.number_squares = 4
-        self.square_width = self.width // self.number_squares
+        self.square_width = self.width // 2 // self.number_squares
         self.square_height = self.height // 2
 
         self.draw.line([self.x0, self.y1, self.x1, self.y1])
@@ -62,6 +62,20 @@ class Forecasts:
         self.draw.text(
             [x, y],
             forecast.get_icon_letter(),
+            font=medium_icon_font,
+            fill=0,
+        )
+
+        air_temp = "%.1f" % (self.forecast.air_temperature)
+        font_width, font_height = font18.getsize(air_temp)
+
+        x = (self.width * 5 // 8) - (font_width // 2) + (i * self.square_width)
+        y = 10 + y
+
+        self.draw.text([x, y], air_temp, font=font18, fill=0)
+        self.draw.text(
+            [x + font_width, y],
+            self.forecast.units.units_temp_letter(),
             font=medium_icon_font,
             fill=0,
         )
