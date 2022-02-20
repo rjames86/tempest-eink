@@ -52,12 +52,15 @@ class Forecasts:
 
         x = (self.width * 9 // 16) - (font_width // 2) + (i * self.square_width)
         y = 10 + self.y0
+
+        # draw the time
         self.draw.text([x, y], time, font=font18, fill=0)
 
+        # draw weather condition icon
         font_width, font_height = medium_icon_font.getsize(forecast.get_icon_letter())
 
         x = (self.width * 9 // 16) - (font_width // 2) + (i * self.square_width)
-        y = 30 + y
+        y = 30 + font_height + y
 
         self.draw.text(
             [x, y],
@@ -66,11 +69,12 @@ class Forecasts:
             fill=0,
         )
 
+        # draw air temperature
         air_temp = "%.1f" % (forecast.air_temperature)
         font_width, font_height = font18.getsize(air_temp)
 
         x = (self.width * 9 // 16) - (font_width // 2) + (i * self.square_width)
-        y = 10 + y
+        y = 10 + font_height + y
 
         self.draw.text([x, y], air_temp, font=font18, fill=0)
         self.draw.text(
