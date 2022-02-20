@@ -4,6 +4,7 @@ font18 = ImageFont.truetype("./fonts/Font.ttc", 18)
 font24 = ImageFont.truetype("./fonts/Font.ttc", 24)
 font36 = ImageFont.truetype("./fonts/Font.ttc", 36)
 font48 = ImageFont.truetype("./fonts/Font.ttc", 48)
+font64 = ImageFont.truetype("./fonts/Font.ttc", 64)
 large_icon_font = ImageFont.truetype("./fonts/meteocons.ttf", 72)
 medium_icon_font = ImageFont.truetype("./fonts/meteocons.ttf", 36)
 small_icon_font = ImageFont.truetype("./fonts/meteocons.ttf", 24)
@@ -145,12 +146,12 @@ class CurrentConditions:
 
     def draw_air_temperature(self, x, y):
         air_temp = "%.1f" % (self.forecast.current_conditions.air_temperature)
-        font_width, font_height = font48.getsize(air_temp)
+        font_width, font_height = font64.getsize(air_temp)
 
         x = (self.width // 8) - (font_width // 2)
         y = 30 + y
 
-        self.draw.text([x, y], air_temp, font=font48, fill=0)
+        self.draw.text([x, y], air_temp, font=font64, fill=0)
         self.draw.text(
             [x + font_width, y],
             self.forecast.units.units_temp_letter(),
