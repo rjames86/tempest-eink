@@ -118,8 +118,12 @@ class BetterForecastForecast:
 
     @classmethod
     def from_json(cls, json_data):
-        daily = map(BetterForecastDailyForecast.from_json, json_data.get("daily"))
-        hourly = map(BetterForecastHourlyForecast.from_json, json_data.get("hourly"))
+        daily = [
+            BetterForecastDailyForecast.from_json(d) for d in json_data.get("daily")
+        ]
+        hourly = [
+            BetterForecastHourlyForecast.from_json(h) for h in json_data.get("hourly")
+        ]
         return cls(daily, hourly)
 
 
