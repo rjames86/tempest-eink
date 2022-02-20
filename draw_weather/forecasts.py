@@ -16,6 +16,7 @@ class Forecasts:
         self.forecast = forecast
         self.observations = observations
 
+        print("rectangle boundary", rectangle_boundary)
         x0, y0, x1, y1 = rectangle_boundary
         self.width = x1 - x0
         self.height = y1 - y0
@@ -24,7 +25,7 @@ class Forecasts:
         self.x0 = self.width // 2
         self.y0 = y0
         self.x1 = x1
-        self.y1 = self.height // 2
+        self.y1 = y1 // 2
 
         print(self.x0, self.y0, self.x1, self.y1)
 
@@ -85,7 +86,7 @@ class Forecasts:
 
         self.draw.text([x, y], air_temp, font=font18, fill=0)
         self.draw.text(
-            [x + (air_font_width // 2), y - (air_font_height // 2)],
+            [x + air_font_width, y - (air_font_height // 4)],
             self.forecast.units.units_temp_letter(),
             font=small_icon_font,
             fill=0,
