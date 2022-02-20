@@ -1,7 +1,5 @@
 from tracemalloc import start
-from PIL import Image, ImageOps
-from PIL import ImageFont
-from PIL import ImageDraw
+from PIL import Image
 
 import matplotlib
 
@@ -9,7 +7,7 @@ matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from matplotlib.ticker import MaxNLocator
+from matplotlib.ticker import MaxNLocator, FuncFormatter
 from datetime import timedelta, datetime
 
 from tempest.observations import get_observations
@@ -46,7 +44,7 @@ class Charts:
         x, y = self.start_x + 10, self.start_y + 10
         for i, (label, value) in enumerate(charts):
             img = self.create_chart(value, label)
-            img_width, img_height = img.size
+            img_width, _ = img.size
             if i == 0:
                 x = 0
             else:
@@ -55,14 +53,14 @@ class Charts:
             self.image.paste(img, (x, y))
 
     def create_chart(self, obs_type, y_label_name):
-        # observations = get_observations("obs_st")
         dates = [obs.time for obs in self.observations]
         temps = [getattr(obs, obs_type) for obs in self.observations]
 
         fig, ax = plt.subplots(figsize=[2.5, 1.75])
         ax.plot(dates, temps, color="k")
-        ax.xaxis.set_major_formatter(get_label(self.observations))
-        ax.xaxis.set_major_locator(MaxNLocator(3))
+        formatter = get_label(self.observations)
+        ax.xaxis.set_major_formatter(FuncFormatter(formatter))
+        ax.xaxis.set_major_locator(MaxNLocator(4))
 
         plt.xlabel("(Hours)", labelpad=0)
         plt.ylabel(y_label_name, rotation=0)

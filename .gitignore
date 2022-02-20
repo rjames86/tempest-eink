@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 # Ignore files added to this directory
-temp
+temp/*
+!temp
