@@ -7,6 +7,7 @@ from draw_weather.charts import Charts
 import time
 from os import environ
 from PIL import Image, ImageDraw, ImageFont
+from datetime import datetime
 import logging
 
 testing = environ.get("TESTING", False)
@@ -46,7 +47,6 @@ font48 = ImageFont.truetype("./fonts/Font.ttc", 48)
 icon_font = ImageFont.truetype("./fonts/meteocons.ttf", 48)
 
 # Drawing on the Horizontal image
-logging.info("1.Drawing on the Horizontal image...")
 Himage = Image.new("1", (epd.width, epd.height), 255)  # 255: clear the frame
 draw = ImageDraw.Draw(Himage)
 
@@ -66,6 +66,8 @@ quarter_rect = [x0, y0, x1 // 4, y1]
 charts = Charts(Himage, observations, 0, y1)
 charts.create()
 
+now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+draw.text((5, 5), "Last updated: %s" % now, font=font12, fill=0)
 draw.rectangle(full_rect, fill=255, outline=0)
 
 c = CurrentConditions(
