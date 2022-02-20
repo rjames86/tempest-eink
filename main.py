@@ -1,8 +1,8 @@
-from charts import create_chart
 from tempest.forecast import get_forecast
 from tempest.observations import get_observations
 from draw_weather.current_conditions import CurrentConditions
 from draw_weather.forecasts import Forecasts
+from draw_weather.charts import Charts
 
 import time
 from os import environ
@@ -33,6 +33,7 @@ observations = get_observations()
 epd.init()
 epd.Clear()
 
+font12 = ImageFont.truetype("./fonts/Font.ttc", 12)
 font24 = ImageFont.truetype("./fonts/Font.ttc", 24)
 font18 = ImageFont.truetype("./fonts/Font.ttc", 18)
 font36 = ImageFont.truetype("./fonts/Font.ttc", 36)
@@ -54,6 +55,12 @@ full_rect = [x0, y0, x1, y1]
 half_rect = [x0, y0, x1 // 2, y1]
 quarter_rect = [x0, y0, x1 // 4, y1]
 
+# We create the charts before anything else. Since there's
+# some weird padding issues, I want the rectangle to draw
+# over the images
+charts = Charts(Himage, observations, 0, y1)
+charts.create()
+
 draw.rectangle(full_rect, fill=255, outline=0)
 
 c = CurrentConditions(
@@ -72,10 +79,6 @@ f = Forecasts(
     top_padding,
 )
 f.create()
-
-fig = create_chart()
-
-Himage.paste(fig.resize((100, 300)), (0, y1))
 
 if not testing:
     epd.display(epd.getbuffer(Himage))

@@ -25,6 +25,10 @@ class Observation:
         )
 
     @property
+    def time(self):
+        return self.values[0]
+
+    @property
     def timestamp(self):
         # Epoch UTC is always the first value in values
         return datetime.fromtimestamp(self.values[0])
@@ -145,7 +149,7 @@ class Tempest(Observation):
 
     @property
     def air_temperature(self):
-        return self.values[7]
+        return (self.values[7] * 1.8) + 32
 
     @property
     def relative_humidity(self):

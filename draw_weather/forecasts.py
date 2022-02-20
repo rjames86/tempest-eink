@@ -16,7 +16,6 @@ class Forecasts:
         self.forecast = forecast
         self.observations = observations
 
-        print(rectangle_boundary)
         x0, y0, x1, y1 = rectangle_boundary
         self.width = x1
         self.height = y1 - y0
