@@ -66,7 +66,6 @@ def main():
     charts.create()
 
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    draw.text((5, 5), "Last updated: %s" % now, font=font12, fill=0)
     draw.rectangle(full_rect, fill=255, outline=0)
 
     c = CurrentConditions(
@@ -85,9 +84,10 @@ def main():
         top_padding,
     )
     f.create()
+    draw.text((5, 5), "Last updated: %s" % now, font=font12, fill=0)
 
     if not testing:
-        if datetime.now().strftime("%M") == "00":
+        if datetime.now().strftime("%H") == "13":
             print("Clearing screen to avoid burn in")
             epd.Clear()
 
@@ -98,3 +98,8 @@ def main():
         time.sleep(60 * 2)
     else:
         Himage.show()
+
+
+if __name__ == "__main__":
+    while True:
+        main()
