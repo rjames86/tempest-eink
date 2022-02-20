@@ -9,25 +9,30 @@ from os import environ
 from PIL import Image, ImageDraw, ImageFont
 import logging
 
-testing = environ.get('TESTING', False)
+testing = environ.get("TESTING", False)
+print("is testing:", testing)
+
 
 class MockEPD:
     width = 800
     height = 480
+
     def init(self):
         pass
+
     def Clear(self):
         pass
 
+
 if not testing:
     from waveshare_epd import epd7in5_V2
+
     epd = epd7in5_V2.EPD()
 else:
     epd = MockEPD()
 
 forecast = get_forecast()
 observations = get_observations()
-
 
 
 epd.init()
