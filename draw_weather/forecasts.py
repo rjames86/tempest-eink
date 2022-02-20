@@ -66,7 +66,7 @@ class Forecasts:
             fill=0,
         )
 
-        air_temp = "%.1f" % (self.forecast.air_temperature)
+        air_temp = "%.1f" % (forecast.air_temperature)
         font_width, font_height = font18.getsize(air_temp)
 
         x = (self.width * 5 // 8) - (font_width // 2) + (i * self.square_width)
