@@ -17,7 +17,7 @@ class CurrentConditions:
         self.observations = observations
 
         x0, y0, x1, y1 = rectangle_boundary
-        # Take half of the rectangle boundary for current conditions
+        # Take left half of the rectangle boundary for current conditions
         self.x0 = x0
         self.y0 = y0
         self.x1 = x1 // 2
@@ -58,23 +58,11 @@ class CurrentConditions:
         return x, y + font_height
 
     def draw_uv(self, x, y):
-        font_width, font_height = small_icon_font.getsize("B")  # sun
-
-        x = self.width // 4
-        y = 10 + y
-
-        self.draw.text(
-            [x, y],
-            "B",
-            font=small_icon_font,
-            fill=0,
-        )
-
         uv = "%s UV" % self.forecast.current_conditions.uv
-        font_width, font_height = font18.getsize(uv)
+        text_font_width, text_font_height = font18.getsize(uv)
 
-        text_x = x + font_width
-        text_y = y
+        text_x = (self.width * 3 // 8) - (text_font_width // 2)
+        text_y = 30 + y
 
         self.draw.text(
             [text_x, text_y],
@@ -83,7 +71,18 @@ class CurrentConditions:
             fill=0,
         )
 
-        return x, y + font_height
+        font_width, font_height = small_icon_font.getsize("B")  # sun
+
+        x = text_x - font_width
+
+        self.draw.text(
+            [x, y],
+            "B",
+            font=small_icon_font,
+            fill=0,
+        )
+
+        return x, y + text_font_height
 
     def draw_conditions(self, x, y):
         conditions = self.forecast.current_conditions.conditions
