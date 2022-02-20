@@ -80,3 +80,4 @@ class CurrentConditions:
             font=font18,
             fill=0,
         )
+        return x, y + font_height
