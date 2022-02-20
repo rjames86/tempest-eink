@@ -3,6 +3,10 @@ from PIL import Image, ImageOps
 from PIL import ImageFont
 from PIL import ImageDraw
 
+import matplotlib
+
+matplotlib.use("Agg")
+
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.ticker import MaxNLocator
@@ -18,7 +22,7 @@ def convert_to_hours(delta):
 
 
 def get_label(obs):
-    def _get_label(tick_val, _):
+    def _get_label(tick_val, tick_pos):
         start_time = datetime.fromtimestamp(tick_val)
         end_time = obs[-1].timestamp
         return convert_to_hours((end_time - start_time))
