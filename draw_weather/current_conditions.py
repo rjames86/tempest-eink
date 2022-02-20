@@ -189,7 +189,7 @@ class CurrentConditions:
         return x, y + font_height
 
     def draw_pressure(self, x, y):
-        sea_level_pressure = "%.3f%% %s" % (
+        sea_level_pressure = "%.3f %s" % (
             self.forecast.current_conditions.sea_level_pressure,
             self.forecast.units.units_pressure,
         )
