@@ -18,14 +18,14 @@ class CurrentConditions:
         x0, y0, x1, y1 = rectangle_boundary
         # Take half of the rectangle boundary for current conditions
         self.x0 = x0
-        self.y0 = y0 + 50
+        self.y0 = y0 + 30
         self.x1 = x1 // 2
         self.y1 = y1
 
         self.width = x1 - x0
         self.height = y1 - y0
 
-        self.draw.rectangle([self.x0, self.y0, self.x1, self.y1], fill=255, outline=0)
+        self.draw.rectangle([self.x0, y0, self.x1, self.y1], fill=255, outline=0)
 
     def create(self):
         # left side
@@ -154,7 +154,7 @@ class CurrentConditions:
         self.draw.text(
             [x + font_width, y],
             self.forecast.units.units_temp_letter(),
-            font=icon_font,
+            font=small_icon_font,
             fill=0,
         )
         return x, y + font_height
