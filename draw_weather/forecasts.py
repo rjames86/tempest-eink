@@ -24,7 +24,7 @@ class Forecasts:
         self.x0 = self.width // 2
         self.y0 = y0
         self.x1 = x1
-        self.y1 = y1 // 2
+        self.y1 = self.height // 2
 
         print(self.x0, self.y0, self.x1, self.y1)
 
@@ -67,7 +67,7 @@ class Forecasts:
             - (condition_font_width // 2)
             + (i * self.square_width)
         )
-        y = 30 + time_font_height + y
+        y = 10 + time_font_height + y
 
         self.draw.text(
             [x, y],
@@ -78,16 +78,16 @@ class Forecasts:
 
         # draw air temperature
         air_temp = "%.1f" % (forecast.air_temperature)
-        air_font_width, font_height = font18.getsize(air_temp)
+        air_font_width, air_font_height = font18.getsize(air_temp)
 
         x = (self.width * 9 // 16) - (air_font_width // 2) + (i * self.square_width)
         y = 10 + condition_font_height + y
 
         self.draw.text([x, y], air_temp, font=font18, fill=0)
         self.draw.text(
-            [x + air_font_width, y],
+            [x + (air_font_width // 2), y - (air_font_height // 2)],
             self.forecast.units.units_temp_letter(),
-            font=medium_icon_font,
+            font=small_icon_font,
             fill=0,
         )
 
