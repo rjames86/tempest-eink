@@ -47,7 +47,7 @@ class Forecasts:
 
     def draw_forecast(self, i, x, y):
         forecast = self.forecast.forecast.hourly[i]
-        time = forecast.time
+        time = "%s:00" % forecast.local_hour
         font_width, font_height = font18.getsize(time)
 
         x = (self.width // 4) - (font_width // 2) + (i * self.square_width)
