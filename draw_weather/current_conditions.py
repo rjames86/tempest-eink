@@ -28,6 +28,7 @@ class CurrentConditions:
 
     def create(self):
         x, y = self.draw_air_temperature(self.x0, self.y0)
+        x, y = self.draw_feels_like(x, y)
         x, y = self.draw_humidity(x, y)
         x, y = self.draw_pressure(x, y)
 
@@ -47,6 +48,24 @@ class CurrentConditions:
         )
         return x, y + font_height
 
+    def draw_feels_like(self, x, y):
+        feels_like_temp = "Feels Like %.0f" % (
+            self.forecast.current_conditions.feels_like
+        )
+        font_width, font_height = font18.getsize(feels_like_temp)
+
+        x = (self.width // 8) - (font_width // 2)
+        y = 10 + y
+
+        self.draw.text([x, y], feels_like_temp, font=font48, fill=0)
+        self.draw.text(
+            [x + font_width, y],
+            self.forecast.units.units_temp_letter(),
+            font=icon_font,
+            fill=0,
+        )
+        return x, y + font_height
+
     def draw_humidity(self, x, y):
         relative_humidity = "%.0f humidity" % (
             self.forecast.current_conditions.relative_humidity
@@ -54,7 +73,7 @@ class CurrentConditions:
         font_width, font_height = font18.getsize(relative_humidity)
 
         x = (self.width // 8) - (font_width // 2)
-        y = 10 + y
+        y = 40 + y
 
         self.draw.text(
             [x, y],
