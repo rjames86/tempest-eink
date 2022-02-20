@@ -172,7 +172,7 @@ class CurrentConditions:
         return x, y + font_height
 
     def draw_humidity(self, x, y):
-        relative_humidity = "%.0f humidity" % (
+        relative_humidity = "%.0f%% humidity" % (
             self.forecast.current_conditions.relative_humidity
         )
         font_width, font_height = font18.getsize(relative_humidity)
@@ -189,7 +189,7 @@ class CurrentConditions:
         return x, y + font_height
 
     def draw_pressure(self, x, y):
-        sea_level_pressure = "%.3f %% %s" % (
+        sea_level_pressure = "%.3f%% %s" % (
             self.forecast.current_conditions.sea_level_pressure,
             self.forecast.units.units_pressure,
         )
