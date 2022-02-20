@@ -17,23 +17,23 @@ class Forecasts:
         self.observations = observations
 
         x0, y0, x1, y1 = rectangle_boundary
-        self.width = (x1 - x0) / 2
+        self.width = (x1 - x0) // 2
         self.height = y1 - y0
 
         # Take right half of the rectangle boundary for forecast
         self.x0 = self.width
         self.y0 = y0
         self.x1 = x1
-        self.y1 = y1 / 2
+        self.y1 = y1 // 2
 
         print(self.x0, self.y0, self.x1, self.y1)
 
         # number of squares we show horizontally
         self.number_squares = 4
-        self.square_width = self.width / self.number_squares
-        self.square_height = self.height / 2
+        self.square_width = self.width // self.number_squares
+        self.square_height = self.height // 2
 
-        self.draw.line([self.x0, self.y0, self.x1, self.y1])
+        self.draw.line([self.x0, self.y1, self.x1, self.y1])
 
         for i in range(1, self.number_squares):
             self.draw.line(
@@ -45,5 +45,16 @@ class Forecasts:
                 ]
             )
 
+    def draw_forecast(self, i, x, y):
+        forecast = self.forecast.forecast.hourly[i]
+        time = forecast.time
+        font_width, font_height = font18.getsize(time)
+
+        x = (self.width // 4) - (font_width // 2) + (i * self.square_width)
+        y = 10 + y
+        self.draw.text([x, y], time, font=font18, fill=0)
+
     def create(self):
-        pass
+        x, y = self.x0, self.y0
+        for i in range(self.number_squares):
+            x, y = self.draw_forecast(i, x, y)
