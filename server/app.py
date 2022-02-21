@@ -57,7 +57,7 @@ class TokenForm(FlaskForm):
 
 def create_config_form(config):
     class ConfigForm(FlaskForm):
-        is_on = BooleanField("Screen On/Off", default=True)
+        is_on = BooleanField("Screen On/Off", default=config["is_on"])
         on_time = TimeField(
             "Time to turn on", default=datetime.strptime(config["on_time"], "%H:%M")
         )
@@ -156,6 +156,7 @@ def index():
                 units_precip=config_form.units_precip.data,
                 units_distance=config_form.units_distance.data,
                 elevation=float(config_form.elevation.data),
+                is_on=config_form.is_on.data,
             )
         )
         with open(config_path, "w") as f:
