@@ -47,16 +47,18 @@ def main():
     # Drawing on the Horizontal image
     Himage = Image.new("1", (epd.width, epd.height), 255)  # 255: clear the frame
     draw = ImageDraw.Draw(Himage)
-
-    if not config_exists():
+    epd.init()
+    print(config_exists(), CONFIG.token)
+    if not config_exists() or CONFIG.token == "":
         text = "Tempest Weatherflow"
-        font_width, _ = font48.getsize(text)
+        font_width, font_height = font48.getsize(text)
         draw.text([epd.width // 2 - (font_width // 2), 0], text, font=font48, fill=0)
 
         text = "Token not set. Visit http://tempest-eink.local to set up"
         font_width, _ = font24.getsize(text)
-        draw.text([epd.width // 2 - (font_width // 2), 0], text, font=font24, fill=0)
+        draw.text([epd.width // 2 - (font_width // 2), font_height + 10], text, font=font24, fill=0)
     else:
+
         if not CONFIG.is_on:
             epd.Clear()
             epd.sleep()
@@ -64,8 +66,6 @@ def main():
 
         forecast = get_forecast()
         observations = get_observations()
-
-        epd.init()
 
         # # Create the bounding box for current conditions
         side_padding = 5
