@@ -407,7 +407,7 @@ def get_forecast():
     resp = fetch_data(
         FORECAST_URL,
         dict(
-            station_id=55396,
+            station_id=CONFIG.station_id,
             token=TOKEN,
             units_temp=CONFIG.units_temp,
             units_wind=CONFIG.units_wind,
