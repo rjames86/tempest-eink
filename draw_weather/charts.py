@@ -3,9 +3,6 @@ import pathlib
 from os import path
 
 import matplotlib
-from matplotlib import font_manager
-
-from fonts import FONT_PATH
 
 matplotlib.use("Agg")
 
@@ -14,13 +11,6 @@ from matplotlib.ticker import MaxNLocator, FuncFormatter
 from datetime import datetime
 
 from tempest.observations import get_observations
-
-# Add every font at the specified location
-for font in font_manager.findSystemFonts([FONT_PATH]):
-    font_manager.fontManager.addfont(font)
-
-# Set font family globally
-plt.rcParams["font.family"] = "Source Sans Pro"
 
 CURRENT_PATH = pathlib.Path(__file__).parent.parent.absolute()
 TEMP_FILE = path.join(CURRENT_PATH, "temp", "temp.png")
