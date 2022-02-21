@@ -33,12 +33,13 @@ def in_between(now, start, end):
 
 def main():
     NOW = datetime.now().time()
+    print(NOW, "initializing epd")
+    epd = epd7in5_V2.EPD()
     # Drawing on the Horizontal image
     Himage = Image.new("1", (epd.width, epd.height), 255)  # 255: clear the frame
 
     # Check if config has been set up
     if not config_exists() or CONFIG.token == "":
-        epd = epd7in5_V2.EPD()
         epd.init()
         draw_not_configured(epd, Himage)
         epd.Clear()
@@ -53,7 +54,6 @@ def main():
             config['is_on'] = True
             save_config(config)
 
-            epd = epd7in5_V2.EPD()
             epd.init()
             draw_weather(epd, Himage)
             epd.Clear()
@@ -66,7 +66,6 @@ def main():
             config = CONFIG.as_json()
             config['is_on'] = False
             save_config(config)
-            epd = epd7in5_V2.EPD()
             epd.init()
             epd.Clear()
             epd.sleep()
