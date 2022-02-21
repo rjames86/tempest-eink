@@ -14,6 +14,7 @@ font18 = ImageFont.truetype(FONT_FILE, 18)
 font36 = ImageFont.truetype(FONT_FILE, 36)
 font48 = ImageFont.truetype(FONT_FILE, 48)
 font64 = ImageFont.truetype(FONT_FILE, 64)
+font96 = ImageFont.truetype(FONT_FILE, 96)
 
 icon_font = ImageFont.truetype(ICON_FONT_PATH, 48)
 large_icon_font = ImageFont.truetype(ICON_FONT_PATH, 72)

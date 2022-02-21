@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 from fonts import (
     font18,
-    font64,
+    font96,
     large_icon_font,
     medium_icon_font,
     small_icon_font,
@@ -144,12 +144,12 @@ class CurrentConditions:
 
     def draw_air_temperature(self, x, y):
         air_temp = "%.1f" % (self.forecast.current_conditions.air_temperature)
-        font_width, font_height = font64.getsize(air_temp)
+        font_width, font_height = font96.getsize(air_temp)
 
         x = (self.width // 8) - (font_width // 2)
         y = 30 + y
 
-        self.draw.text([x, y], air_temp, font=font64, fill=0)
+        self.draw.text([x, y], air_temp, font=font96, fill=0)
         self.draw.text(
             [x + font_width, y],
             self.forecast.units.units_temp_letter(),
