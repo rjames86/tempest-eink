@@ -48,7 +48,7 @@ def main():
     Himage = Image.new("1", (epd.width, epd.height), 255)  # 255: clear the frame
     draw = ImageDraw.Draw(Himage)
     epd.init()
-    print(config_exists(), CONFIG.token)
+
     if not config_exists() or CONFIG.token == "":
         text = "Tempest Weatherflow"
         font_width, font_height = font48.getsize(text)
@@ -112,6 +112,4 @@ def main():
 
 
 if __name__ == "__main__":
-    while True:
-        print("Running...")
-        main()
+    main()
