@@ -103,15 +103,10 @@ def main():
         f.create()
 
     if not testing:
-        if datetime.now().strftime("%H") == "13":
-            print("Clearing screen to avoid burn in")
-            epd.Clear()
-
+        epd.Clear()
         epd.display(epd.getbuffer(Himage))
         time.sleep(10)
         epd.sleep()
-        print("sleeping for 2 minutes")
-        time.sleep(60 * 2)
     else:
         Himage.show()
 
