@@ -1,7 +1,7 @@
 import json
 from os import path
 import pathlib
-from datetime import time
+from datetime import datetime
 
 CURRENT_PATH = pathlib.Path(__file__).parent.absolute()
 CONFIG_PATH = path.join(CURRENT_PATH, "config.json")
@@ -62,8 +62,8 @@ class Config:
         self.units_precip = units_precip
         self.units_distance = units_distance
         self.elevation = elevation
-        self.on_time = time.strftime(on_time, "%H:%M")
-        self.off_time = time.strftime(off_time, "%H:%M")
+        self.on_time = datetime.strptime(on_time, '%H:%M').time()
+        self.off_time = datetime.strptime(off_time, "%H:%M").time()
         self.is_on = is_on
 
     def as_json(self):
