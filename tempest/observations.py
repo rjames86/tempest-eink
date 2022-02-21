@@ -143,16 +143,13 @@ class Tempest(Observation):
     @property
     def sea_level_pressure(self):
         # https://weatherflow.github.io/Tempest/api/derived-metric-formulas.html
-
-        # hard coded elevation
-        # TODO full station info to get actual elevation
         e = CONFIG.elevation
         sea_level_pressure = self.pressure * pow(
             1
             + pow(1013.25 / self.pressure, 1.865825 / 9.80665) * (0.0065 * e / 288.15),
             9.80665 / 1.865825,
         )
-        return sea_level_pressure * 0.029529980164712
+        return Conversions.pressure(sea_level_pressure)
 
     @property
     def pressure(self):
