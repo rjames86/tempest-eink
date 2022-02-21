@@ -1,7 +1,8 @@
-from config import CONFIG
+from server.config import CONFIG
 from tempest.request import FORECAST_URL, fetch_data
 
 TOKEN = CONFIG.token
+
 
 class BetterForecastHourlyForecast:
     def __init__(

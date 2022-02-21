@@ -12,38 +12,16 @@ from wtforms import (
 )
 from wtforms.validators import DataRequired
 
-from os import path, pardir
 import requests
-import json
 from datetime import datetime
 
-app = Flask(__name__)
+from config import create_or_get_config, save_config
 
-config_path = path.join(pardir, "config.json")
+app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "C2HWGVoMGfNTBsrYQg8EcMrdTimkZfAb"
 
 Bootstrap(app)
-
-
-def create_or_get_config():
-    if not path.exists(config_path):
-        print("config doesnt exist")
-        default_config = dict(
-            units_temp="f",
-            units_wind="mph",
-            units_pressure="inhg",
-            units_precip="in",
-            units_distance="mi",
-            elevation=0,
-            on_time="05:00",
-            off_time="23:00",
-            is_on=True,
-        )
-        print(default_config)
-        with open(config_path, "w") as f:
-            json.dump(default_config, f)
-    return json.load(open(config_path))
 
 
 class TokenForm(FlaskForm):
@@ -133,8 +111,7 @@ def index():
             print("station info", station_info)
             config.update(station_info)
             print("new config", config)
-            with open(config_path, "w") as f:
-                json.dump(config, f)
+            save_config(config)
         return render_template(
             "index.html",
             form=form,
@@ -157,8 +134,7 @@ def index():
                 elevation=float(config_form.elevation.data),
             )
         )
-        with open(config_path, "w") as f:
-            json.dump(config, f)
+        save_config(config)
         return render_template(
             "index.html",
             form=form,
@@ -173,6 +149,12 @@ def index():
         config=config,
         config_form=config_form,
     )
+
+
+@app.route("/config/delete", methods=["GET"])
+def delete_config():
+    create_or_get_config(recreate=True)
+    return redirect(url_for("index"))
 
 
 @app.errorhandler(404)

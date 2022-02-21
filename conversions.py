@@ -1,4 +1,4 @@
-from config import CONFIG
+from server.config import CONFIG
 
 
 class Conversions:

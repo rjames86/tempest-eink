@@ -1,7 +1,7 @@
 from conversions import Conversions
 from tempest.request import fetch_data, DEVICE_OBSERVATIONS_URL
 from datetime import datetime, timedelta
-from config import CONFIG
+from server.config import CONFIG
 
 NOW = datetime.utcnow()
 ONE_DAY_AGO = NOW - timedelta(hours=24)

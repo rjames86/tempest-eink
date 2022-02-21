@@ -1,4 +1,4 @@
-from config import CONFIG, config_exists, save_config
+from server.config import CONFIG, config_exists, save_config
 from draw_weather import (
     draw_not_configured,
     draw_weather,
@@ -23,20 +23,38 @@ class MockEPD:
     def Clear(self):
         pass
 
-from waveshare_epd import epd7in5_V2
+
+def get_epd():
+    if testing:
+        return MockEPD()
+    else:
+        from waveshare_epd import epd7in5_V2
+
+        return epd7in5_V2.EPD()
+
 
 def in_between(now, start, end):
     if start <= end:
         return start <= now < end
-    else: # over midnight e.g., 23:30-04:15
+    else:  # over midnight e.g., 23:30-04:15
         return start <= now or now < end
+
 
 def main():
     NOW = datetime.now().time()
     print(NOW, "initializing epd")
-    epd = epd7in5_V2.EPD()
+    epd = get_epd()
     # Drawing on the Horizontal image
     Himage = Image.new("1", (epd.width, epd.height), 255)  # 255: clear the frame
+
+    if testing:
+        config = CONFIG.as_json()
+        config["is_on"] = True
+        save_config(config)
+
+        draw_weather(epd, Himage)
+        Himage.show()
+        return
 
     # Check if config has been set up
     if not config_exists() or CONFIG.token == "":
@@ -48,10 +66,10 @@ def main():
         epd.sleep()
     else:
         if in_between(NOW, CONFIG.on_time, CONFIG.off_time):
-            print(NOW, "Starting up...")        
+            print(NOW, "Starting up...")
 
             config = CONFIG.as_json()
-            config['is_on'] = True
+            config["is_on"] = True
             save_config(config)
 
             epd.init()
@@ -60,11 +78,11 @@ def main():
             epd.display(epd.getbuffer(Himage))
             time.sleep(10)
             epd.sleep()
-            
+
         elif not in_between(NOW, CONFIG.on_time, CONFIG.off_time) and CONFIG.is_on:
             print(NOW, "Sleeping time. Don't do anything")
             config = CONFIG.as_json()
-            config['is_on'] = False
+            config["is_on"] = False
             save_config(config)
             epd.init()
             epd.Clear()
@@ -74,6 +92,6 @@ def main():
             print(NOW, "sleeping and already off...")
             return
 
-        
+
 if __name__ == "__main__":
     main()
