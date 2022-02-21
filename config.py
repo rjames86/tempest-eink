@@ -8,6 +8,8 @@ def create_or_get_config():
         print("config doesnt exist")
         default_config = dict(
             token="",
+            device_id="",
+            station_id="",
             units_temp="f",
             units_wind="mph",
             units_pressure="inhg",
