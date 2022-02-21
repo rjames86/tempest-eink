@@ -70,8 +70,12 @@ def main():
             config = CONFIG.as_json()
             config['is_on'] = False
             save_config(config)
+            epd.init()
+            epd.Clear()
+            epd.sleep()
             return
         else:
+            print(NOW, "sleeping and already off...")
             return
 
         
