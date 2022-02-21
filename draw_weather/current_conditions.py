@@ -46,7 +46,7 @@ class CurrentConditions:
         )
 
         x = (self.width * 3 // 8) - (font_width // 2)
-        y = 30 + y
+        y = 30 + (self.height // 8) + y
 
         self.draw.text(
             [x, y],
@@ -106,7 +106,7 @@ class CurrentConditions:
         )
         font_width, font_height = font18.getsize(wind_text)
         x = (self.width * 3 // 8) - (font_width // 2)
-        y = 10 + y
+        y = 20 + y
 
         self.draw.text(
             [x, y],
@@ -151,7 +151,7 @@ class CurrentConditions:
 
         self.draw.text([x, y], air_temp, font=font96, fill=0)
         self.draw.text(
-            [x + font_width, y],
+            [x + font_width, y + (font_height // 4)],
             self.forecast.units.units_temp_letter(),
             font=medium_icon_font,
             fill=0,
