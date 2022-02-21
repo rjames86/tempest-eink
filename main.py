@@ -7,7 +7,7 @@ from draw_weather import (
 import time
 from os import environ
 from PIL import Image
-from datetime import datetime, time
+from datetime import datetime
 
 testing = environ.get("TESTING", False)
 print("is testing:", testing)
