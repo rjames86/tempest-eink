@@ -21,6 +21,7 @@ default_config = dict(
     is_on=True,
     include_daily_forecast=True,
     station_name="",
+    always_show_rain=False,
 )
 
 
@@ -57,8 +58,9 @@ class Config:
         on_time,
         off_time,
         is_on,
-        include_daily_forecast=True,
+        include_daily_forecast=default_config["include_daily_forecast"],
         station_name="",
+        always_show_rain=default_config["always_show_rain"],
         *args,
         **kwargs,
     ):
@@ -76,6 +78,7 @@ class Config:
         self.is_on = is_on
         self.include_daily_forecast = include_daily_forecast
         self.station_name = station_name
+        self.always_show_rain = always_show_rain
 
     def as_json(self):
         return dict(
@@ -93,6 +96,7 @@ class Config:
             is_on=self.is_on,
             include_daily_forecast=self.include_daily_forecast,
             station_name=self.station_name,
+            always_show_rain=self.always_show_rain,
         )
 
     @classmethod

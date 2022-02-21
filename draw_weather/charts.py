@@ -40,13 +40,27 @@ class Charts:
         self.start_x = start_x
         self.start_y = start_y
 
+        # Default sizes for when there are 3 charts
+        self.chart_width = 2.5
+        self.chart_height = 1.75
+
     def create(self):
         charts = [
             ("Pressure", "Hours", "sea_level_pressure", "line"),
             ("Temperature", "Hours", "air_temperature", "line"),
             ("Humidity", "Hours", "relative_humidity", "line"),
-            ("Rainfall", CONFIG.units_precip, "local_day_rain_accumulation", "bar"),
         ]
+
+        # Let's see if there's any rain acumulation. If so, we can add the chart
+        if (
+            self.observations.total_local_rain_acumulation > 0
+            or CONFIG.always_show_rain
+        ):
+            self.chart_width = 2
+            charts.append(
+                ("Rainfall", CONFIG.units_precip, "local_day_rain_accumulation", "bar")
+            )
+
         x, y = self.start_x + 10, self.start_y + 10
         for i, (y_label, x_label, value, chart_type) in enumerate(charts):
             img = self.create_chart(value, x_label, y_label, chart_type)
@@ -68,7 +82,7 @@ class Charts:
         dates = [obs.time for obs in self.observations]
         temps = [getattr(obs, obs_type) for obs in self.observations]
 
-        fig, ax = plt.subplots(figsize=[2, 1.75])
+        fig, ax = plt.subplots(figsize=[self.chart_width, self.chart_height])
         ax.plot(dates, temps, color="k")
         formatter = get_label(self.observations)
         ax.xaxis.set_major_formatter(FuncFormatter(formatter))
@@ -91,7 +105,7 @@ class Charts:
         dates = [formatter(obs.time, None) for obs in self.observations]
         temps = [getattr(obs, obs_type) for obs in self.observations]
 
-        fig, ax = plt.subplots(figsize=[2, 1.75])
+        fig, ax = plt.subplots(figsize=[self.chart_width, self.chart_height])
         ax.bar(dates, temps, color="k")
 
         # ax.xaxis.set_major_formatter(FuncFormatter(formatter))

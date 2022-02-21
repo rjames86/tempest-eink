@@ -47,6 +47,11 @@ def create_config_form(config):
             default=config.get("include_daily_forecast", True),
             description="Includes daily forecast along with hourly forecast",
         )
+        always_show_rain = BooleanField(
+            "Always show rain accumulation chart (If off, it'll only show if there's been rain)",
+            default=config.get("always_show_rain", False),
+            description="Includes daily forecast along with hourly forecast",
+        )
         units_temp = SelectField(
             "Temp Units", default=config["units_temp"], choices=[("f", "F"), ("c", "C")]
         )
@@ -137,6 +142,7 @@ def index():
                 units_distance=config_form.units_distance.data,
                 elevation=float(config_form.elevation.data),
                 include_daily_forecast=config_form.include_daily_forecast.data,
+                always_show_rain=config_form.always_show_rain.data,
             )
         )
         save_config(config)

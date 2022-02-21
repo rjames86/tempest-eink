@@ -221,6 +221,10 @@ class Observations(list):
                 self.append(Sky(tempest_type, observation))
         return self
 
+    @property
+    def total_local_rain_acumulation(self):
+        return sum([o.local_day_rain_accumulation for o in self])
+
 
 def get_observations(obs_type="obs_air"):
     resp = fetch_data(
