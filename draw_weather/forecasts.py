@@ -1,17 +1,15 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import ImageDraw
 from fonts import (
     font18,
-    font24,
-    font36,
-    font48,
-    large_icon_font,
     medium_icon_font,
     small_icon_font,
 )
 
 
 class Forecasts:
-    def __init__(self, image, forecast, observations, rectangle_boundary, top_padding) -> None:
+    def __init__(
+        self, image, forecast, observations, rectangle_boundary, top_padding
+    ) -> None:
         self.draw = ImageDraw.Draw(image)
 
         self.forecast = forecast
@@ -32,7 +30,9 @@ class Forecasts:
         self.square_width = self.width // 2 // self.number_squares
         self.square_height = self.height // 2
 
-        self.draw.line([self.x0, self.y1 + self.y0 // 2, self.x1, self.y1+ self.y0 // 2])
+        self.draw.line(
+            [self.x0, self.y1 + self.y0 // 2, self.x1, self.y1 + self.y0 // 2]
+        )
 
         for i in range(1, self.number_squares):
             self.draw.line(
@@ -51,7 +51,11 @@ class Forecasts:
         time = "%s:00" % forecast.local_hour
         time_font_width, time_font_height = font18.getsize(time)
 
-        x = (self.width * 9 // 16) - (time_font_width // 2) + ((i % self.number_squares) * self.square_width)
+        x = (
+            (self.width * 9 // 16)
+            - (time_font_width // 2)
+            + ((i % self.number_squares) * self.square_width)
+        )
         y = 10 + self.y0 + (self.square_height * (i // self.number_squares))
 
         self.draw.text([x, y], time, font=font18, fill=0)
@@ -79,7 +83,11 @@ class Forecasts:
         air_temp = "%.1f" % (forecast.air_temperature)
         air_font_width, air_font_height = font18.getsize(air_temp)
 
-        x = (self.width * 9 // 16) - (air_font_width // 2) + ((i % self.number_squares) * self.square_width)
+        x = (
+            (self.width * 9 // 16)
+            - (air_font_width // 2)
+            + ((i % self.number_squares) * self.square_width)
+        )
         y = 10 + condition_font_height + y
 
         self.draw.text([x, y], air_temp, font=font18, fill=0)

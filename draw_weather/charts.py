@@ -1,4 +1,3 @@
-from tracemalloc import start
 from PIL import Image
 import pathlib
 from os import path
@@ -6,7 +5,7 @@ from os import path
 import matplotlib
 from matplotlib import font_manager
 
-from fonts import FONT_PATH, FONT_FILE
+from fonts import FONT_PATH
 
 matplotlib.use("Agg")
 

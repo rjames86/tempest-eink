@@ -1,9 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 from fonts import (
     font18,
-    font24,
-    font36,
-    font48,
     font64,
     large_icon_font,
     medium_icon_font,

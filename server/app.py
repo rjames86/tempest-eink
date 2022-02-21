@@ -1,19 +1,11 @@
-from venv import create
-from flask import Flask, render_template, redirect, url_for, request
-from flask_bootstrap import Bootstrap
-from flask_wtf import FlaskForm
-from wtforms import (
-    StringField,
-    SubmitField,
-    SelectField,
-    DecimalField,
-    TimeField,
-    BooleanField,
-)
-from wtforms.validators import DataRequired
+from datetime import datetime
 
 import requests
-from datetime import datetime
+from flask import Flask, redirect, render_template, url_for
+from flask_bootstrap import Bootstrap
+from flask_wtf import FlaskForm
+from wtforms import DecimalField, SelectField, StringField, SubmitField, TimeField
+from wtforms.validators import DataRequired
 
 from config import create_or_get_config, save_config
 
