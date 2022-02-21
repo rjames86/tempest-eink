@@ -45,7 +45,7 @@ def main():
     # Check if config has been set up
     if not config_exists() or CONFIG.token == "":
         epd.init()
-        draw_not_configured()
+        draw_not_configured(epd, Himage)
         epd.Clear()
         epd.display(epd.getbuffer(Himage))
         time.sleep(10)
@@ -59,7 +59,7 @@ def main():
             save_config(config)
 
             epd.init()
-            draw_weather()
+            draw_weather(epd, Himage)
             epd.Clear()
             epd.display(epd.getbuffer(Himage))
             time.sleep(10)
