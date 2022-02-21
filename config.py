@@ -3,8 +3,24 @@ from os import path
 
 CONFIG_PATH = "config.json"
 
-config_data = json.load(open(CONFIG_PATH))
-
+def create_or_get_config():
+    if not path.exists(CONFIG_PATH):
+        print("config doesnt exist")
+        default_config = dict(
+            units_temp="f",
+            units_wind="mph",
+            units_pressure="inhg",
+            units_precip="in",
+            units_distance="mi",
+            elevation=0,
+            on_time="05:00",
+            off_time="23:00",
+            is_on=True,
+        )
+        print(default_config)
+        with open(CONFIG_PATH, "w") as f:
+            json.dump(default_config, f)
+    return json.load(open(CONFIG_PATH))
 
 def config_exists():
     return path.exists(CONFIG_PATH)
@@ -40,7 +56,8 @@ class Config:
         self.is_on = is_on
 
     @classmethod
-    def from_json(cls, json_data):
+    def from_json(cls):
+        json_data = create_or_get_config()
         return cls(
             json_data["token"],
             json_data["device_id"],
