@@ -1,6 +1,13 @@
 import json
+from os import path
 
-config_data = json.load(open("config.json"))
+CONFIG_PATH = path("config.json")
+
+config_data = json.load(open(CONFIG_PATH))
+
+
+def config_exists():
+    return path.exists(CONFIG_PATH)
 
 
 class Config:
