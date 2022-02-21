@@ -1,7 +1,7 @@
 import json
 from os import path
 
-CONFIG_PATH = path("config.json")
+CONFIG_PATH = "config.json"
 
 config_data = json.load(open(CONFIG_PATH))
 
