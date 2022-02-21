@@ -4,6 +4,14 @@ from draw_weather.current_conditions import CurrentConditions
 from draw_weather.forecasts import Forecasts
 from draw_weather.charts import Charts
 from config import CONFIG, CONFIG_PATH, config_exists
+from fonts import (
+    font12,
+    font24,
+    font18,
+    font36,
+    font48,
+    icon_font,
+)
 
 import time
 from os import environ
@@ -34,13 +42,6 @@ if not testing:
     epd = epd7in5_V2.EPD()
 else:
     epd = MockEPD()
-
-font12 = ImageFont.truetype("./fonts/Font.ttc", 12)
-font24 = ImageFont.truetype("./fonts/Font.ttc", 24)
-font18 = ImageFont.truetype("./fonts/Font.ttc", 18)
-font36 = ImageFont.truetype("./fonts/Font.ttc", 36)
-font48 = ImageFont.truetype("./fonts/Font.ttc", 48)
-icon_font = ImageFont.truetype("./fonts/meteocons.ttf", 48)
 
 
 def main():

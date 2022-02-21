@@ -1,13 +1,14 @@
 from PIL import Image, ImageDraw, ImageFont
-
-font18 = ImageFont.truetype("./fonts/Font.ttc", 18)
-font24 = ImageFont.truetype("./fonts/Font.ttc", 24)
-font36 = ImageFont.truetype("./fonts/Font.ttc", 36)
-font48 = ImageFont.truetype("./fonts/Font.ttc", 48)
-font64 = ImageFont.truetype("./fonts/Font.ttc", 64)
-large_icon_font = ImageFont.truetype("./fonts/meteocons.ttf", 72)
-medium_icon_font = ImageFont.truetype("./fonts/meteocons.ttf", 36)
-small_icon_font = ImageFont.truetype("./fonts/meteocons.ttf", 24)
+from fonts import (
+    font18,
+    font24,
+    font36,
+    font48,
+    font64,
+    large_icon_font,
+    medium_icon_font,
+    small_icon_font,
+)
 
 
 class CurrentConditions:
