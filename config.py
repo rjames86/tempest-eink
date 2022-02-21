@@ -77,8 +77,8 @@ class Config:
             units_precip=self.units_precip,
             units_distance=self.units_distance,
             elevation=self.elevation,
-            on_time=self.on_time,
-            off_time=self.off_time,
+            on_time=self.on_time.strftime("%H:%M"),
+            off_time=self.off_time.strftime("%H:%M"),
             is_on=self.is_on,
         )
 
