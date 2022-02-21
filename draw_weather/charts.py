@@ -14,7 +14,7 @@ from datetime import timedelta, datetime
 
 from tempest.observations import get_observations
 
-CURRENT_PATH = pathlib.Path(__file__).parent.absolute()
+CURRENT_PATH = pathlib.Path(__file__).parent.parent.absolute()
 TEMP_FILE = path.join(CURRENT_PATH, 'temp', 'temp.png')
 
 def convert_to_hours(delta):
