@@ -1,5 +1,7 @@
 from tracemalloc import start
 from PIL import Image
+import pathlib
+from os import path
 
 import matplotlib
 
@@ -12,6 +14,8 @@ from datetime import timedelta, datetime
 
 from tempest.observations import get_observations
 
+CURRENT_PATH = pathlib.Path(__file__).parent.absolute()
+TEMP_FILE = path.join(CURRENT_PATH, 'temp', 'temp.png')
 
 def convert_to_hours(delta):
     total_seconds = delta.total_seconds()
@@ -67,10 +71,10 @@ class Charts:
         ax.yaxis.set_label_coords(0.5, 1.02)
         plt.tight_layout()
 
-        fig.savefig("./temp/temp.png")
+        fig.savefig(TEMP_FILE)
 
         # open image as PIL object
-        img = Image.open("./temp/temp.png")
+        img = Image.open(TEMP_FILE)
         pil_img = Image.frombytes(
             "RGB", fig.canvas.get_width_height(), fig.canvas.tostring_rgb()
         )
