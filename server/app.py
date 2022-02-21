@@ -1,7 +1,8 @@
 from datetime import datetime
+import json
 
 import requests
-from flask import Flask, redirect, render_template, url_for
+from flask import Flask, redirect, render_template, url_for, jsonify
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import (
@@ -14,11 +15,12 @@ from wtforms import (
 )
 from wtforms.validators import DataRequired
 
-from config import create_or_get_config, save_config
+from config import create_or_get_config, save_config, CONFIG
 
 app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "C2HWGVoMGfNTBsrYQg8EcMrdTimkZfAb"
+app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
 
 Bootstrap(app)
 
@@ -152,6 +154,12 @@ def index():
         config=config,
         config_form=config_form,
     )
+
+
+@app.route("/config/show", methods=["GET"])
+def show_config():
+    create_or_get_config(recreate=True)
+    return jsonify(CONFIG.as_json())
 
 
 @app.route("/config/delete", methods=["GET"])
