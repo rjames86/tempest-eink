@@ -1,25 +1,13 @@
-from tempest.forecast import get_forecast
-from tempest.observations import get_observations
-from draw_weather.current_conditions import CurrentConditions
-from draw_weather.forecasts import Forecasts
-from draw_weather.charts import Charts
-from config import CONFIG, CONFIG_PATH, config_exists
-from fonts import (
-    font12,
-    font24,
-    font18,
-    font36,
-    font48,
-    icon_font,
+from config import CONFIG, config_exists, save_config
+from draw_weather import (
+    draw_not_configured,
+    draw_weather,
 )
 
 import time
 from os import environ
-from PIL import Image, ImageDraw, ImageFont
-from datetime import datetime
-from dateutil import tz
-
-import logging
+from PIL import Image
+from datetime import datetime, time
 
 testing = environ.get("TESTING", False)
 print("is testing:", testing)
@@ -43,74 +31,49 @@ if not testing:
 else:
     epd = MockEPD()
 
+def in_between(now, start, end):
+    if start <= end:
+        return start <= now < end
+    else: # over midnight e.g., 23:30-04:15
+        return start <= now or now < end
 
 def main():
+    NOW = datetime.now()
     # Drawing on the Horizontal image
     Himage = Image.new("1", (epd.width, epd.height), 255)  # 255: clear the frame
-    draw = ImageDraw.Draw(Himage)
-    epd.init()
 
+    # Check if config has been set up
     if not config_exists() or CONFIG.token == "":
-        text = "Tempest Weatherflow"
-        font_width, font_height = font48.getsize(text)
-        draw.text([epd.width // 2 - (font_width // 2), 0], text, font=font48, fill=0)
-
-        text = "Token not set. Visit http://tempest-eink.local to set up"
-        font_width, _ = font24.getsize(text)
-        draw.text([epd.width // 2 - (font_width // 2), font_height + 10], text, font=font24, fill=0)
-    else:
-
-        if not CONFIG.is_on:
-            epd.Clear()
-            epd.sleep()
-            return
-
-        forecast = get_forecast()
-        observations = get_observations()
-
-        # # Create the bounding box for current conditions
-        side_padding = 5
-        top_padding = 30
-        x0, y0 = (0 + side_padding), (0 + top_padding)
-        x1, y1 = (epd.width - side_padding), ((epd.height - top_padding) * 2 // 3)
-
-        full_rect = [x0, y0, x1, y1]
-
-        # We create the charts before anything else. Since there's
-        # some weird padding issues, I want the rectangle to draw
-        # over the images
-        charts = Charts(Himage, observations, 0, y1)
-        charts.create()
-
-        now = datetime.now(tz=tz.gettz("America/Denver")).strftime("%Y-%m-%d %H:%M:%S")
-        draw.text((5, 5), "Last updated: %s   " % now, font=font12, fill=0)
-        draw.rectangle(full_rect, fill=255, outline=0)
-
-        c = CurrentConditions(
-            Himage,
-            forecast,
-            observations,
-            full_rect,
-        )
-        c.create()
-
-        f = Forecasts(
-            Himage,
-            forecast,
-            observations,
-            full_rect,
-            top_padding,
-        )
-        f.create()
-
-    if not testing:
+        epd.init()
+        draw_not_configured()
         epd.Clear()
         epd.display(epd.getbuffer(Himage))
         time.sleep(10)
         epd.sleep()
     else:
-        Himage.show()
+        if in_between(NOW, CONFIG.on_time, CONFIG.off_time):
+            print(NOW, "Starting up...")        
 
+            config = CONFIG.as_json()
+            config['is_on'] = True
+            save_config(config)
 
+            epd.init()
+            draw_weather()
+            epd.Clear()
+            epd.display(epd.getbuffer(Himage))
+            time.sleep(10)
+            epd.sleep()
+            
+        elif not in_between(NOW, CONFIG.on_time, CONFIG.off_time) and CONFIG.is_on:
+            print(NOW, "Sleeping time. Don't do anything")
+            config = CONFIG.as_json()
+            config['is_on'] = False
+            save_config(config)
+            return
+        else:
+            return
+
+        
 if __name__ == "__main__":
     main()

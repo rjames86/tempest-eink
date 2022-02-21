@@ -1,6 +1,7 @@
 import json
 from os import path
 import pathlib
+from datetime import time
 
 CURRENT_PATH = pathlib.Path(__file__).parent.absolute()
 CONFIG_PATH = path.join(CURRENT_PATH, "config.json")
@@ -27,6 +28,10 @@ def create_or_get_config():
         with open(CONFIG_PATH, "w") as f:
             json.dump(default_config, f)
     return json.load(open(CONFIG_PATH))
+
+def save_config(new_config):
+    with open(CONFIG_PATH, "w") as f:
+        json.dump(new_config, f)
 
 def config_exists():
     return path.exists(CONFIG_PATH)
@@ -57,9 +62,25 @@ class Config:
         self.units_precip = units_precip
         self.units_distance = units_distance
         self.elevation = elevation
-        self.on_time = on_time
-        self.off_time = off_time
+        self.on_time = time.strftime(on_time, "%H:%M")
+        self.off_time = time.strftime(off_time, "%H:%M")
         self.is_on = is_on
+
+    def as_json(self):
+        return dict(
+            token=self.token,
+            device_id=self.device_id,
+            station_id=self.station_id,
+            units_temp=self.units_temp,
+            units_wind=self.units_wind,
+            units_pressure=self.units_pressure,
+            units_precip=self.units_precip,
+            units_distance=self.units_distance,
+            elevation=self.elevation,
+            on_time=self.on_time,
+            off_time=self.off_time,
+            is_on=self.is_on,
+        )
 
     @classmethod
     def from_json(cls):
