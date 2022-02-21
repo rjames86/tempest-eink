@@ -7,6 +7,7 @@ def create_or_get_config():
     if not path.exists(CONFIG_PATH):
         print("config doesnt exist")
         default_config = dict(
+            token="",
             units_temp="f",
             units_wind="mph",
             units_pressure="inhg",
@@ -74,4 +75,4 @@ class Config:
         )
 
 
-CONFIG = Config.from_json(config_data)
+CONFIG = Config.from_json()
