@@ -120,6 +120,14 @@ class BetterForecastDailyForecast:
         self.precip_type = precip_type
 
     @property
+    def sunrise_time(self):
+        return datetime.fromtimestamp(self.sunrise).strftime("%H:%M")
+
+    @property
+    def sunset_time(self):
+        return datetime.fromtimestamp(self.sunset).strftime("%H:%M")
+
+    @property
     def day_name(self):
         return datetime.fromtimestamp(self.day_start_local).strftime("%A")
 

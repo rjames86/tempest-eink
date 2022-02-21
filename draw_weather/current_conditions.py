@@ -1,3 +1,4 @@
+from cgitb import small
 from PIL import Image, ImageDraw, ImageFont
 import pathlib
 from os import path
@@ -47,6 +48,7 @@ class CurrentConditions:
         x, y = self.draw_conditions(x, y)
         x, y = self.draw_wind(x, y)
         x, y = self.draw_uv(x, y)
+        x, y = self.draw_sunrise_sunset(x, y)
 
     def draw_condition_icon(self, x, y):
         font_width, font_height = large_icon_font.getsize(
@@ -90,6 +92,60 @@ class CurrentConditions:
         )
 
         return x, y + text_font_height
+
+    def draw_sunrise_sunset(self, x, y):
+        today_forcast = self.forecast.forecast.daily[0]
+
+        outer_padding = 30
+
+        black_sun = "1"
+        sun_width, sun_height = small_icon_font.getsize(black_sun)
+        x = self.width // 4 + outer_padding
+        y = y + 20
+        self.draw.text(
+            [x, y],
+            black_sun,
+            font=small_icon_font,
+            fill=0,
+        )
+
+        sunrise = "%s" % today_forcast.sunrise_time
+        sunrise_font_width, sunrise_font_height = font18.getsize(sunrise)
+
+        text_x = x + sun_width
+        text_y = y
+
+        self.draw.text(
+            [text_x, text_y],
+            sunrise,
+            font=font18,
+            fill=0,
+        )
+
+        sunset = "%s" % today_forcast.sunset_time
+        sunset_font_width, sunset_font_height = font18.getsize(sunset)
+
+        text_x = self.x1 - sunset_font_width - outer_padding
+        text_y = y
+
+        self.draw.text(
+            [text_x, text_y],
+            sunset,
+            font=font18,
+            fill=0,
+        )
+
+        black_moon = "2"
+        moon_width, moon_height = small_icon_font.getsize(black_moon)
+        x = text_x - moon_width
+        self.draw.text(
+            [x, y],
+            black_moon,
+            font=small_icon_font,
+            fill=0,
+        )
+
+        return x, y + sunrise_font_height
 
     def draw_conditions(self, x, y):
         conditions = "%s  " % self.forecast.current_conditions.conditions
