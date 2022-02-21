@@ -1,4 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
+import pathlib
+from os import path
 from fonts import (
     font18,
     font96,
@@ -7,9 +9,13 @@ from fonts import (
     small_icon_font,
 )
 
+BASE_PATH = pathlib.Path(__file__).parent.parent.absolute()
+ARROW_PATH = path.join(BASE_PATH, "images", "cc-pressure-trend-arrow.png")
+
 
 class CurrentConditions:
     def __init__(self, image, forecast, observations, rectangle_boundary) -> None:
+        self.image = image
         self.draw = ImageDraw.Draw(image)
 
         self.forecast = forecast
@@ -129,18 +135,18 @@ class CurrentConditions:
             y + (circle_diameter - (circle_radius // 2)),
         ]
 
-        self.draw.ellipse(
-            circle_coords,
-            fill=255,
-            outline=0,
-        )
-        self.draw.pieslice(
-            circle_coords,
-            start=-wind_direction - 10,
-            end=-wind_direction + 10,
-            fill=0,
-            outline=0,
-        )
+        # self.draw.ellipse(
+        #     circle_coords,
+        #     fill=255,
+        #     outline=0,
+        # )
+        # self.draw.pieslice(
+        #     circle_coords,
+        #     start=-wind_direction - 10,
+        #     end=-wind_direction + 10,
+        #     fill=0,
+        #     outline=0,
+        # )
 
         return x, y + font_height
 
@@ -216,9 +222,10 @@ class CurrentConditions:
         return x, y + font_height
 
     def draw_pressure(self, x, y):
-        sea_level_pressure = "%.3f %s" % (
+        sea_level_pressure = "%.3f %s %s" % (
             self.forecast.current_conditions.sea_level_pressure,
             self.forecast.units.units_pressure,
+            self.forecast.current_conditions.pressure_trend,
         )
         font_width, font_height = font18.getsize(sea_level_pressure)
 
@@ -231,4 +238,7 @@ class CurrentConditions:
             font=font18,
             fill=0,
         )
+        arrow = Image.open(ARROW_PATH).resize((25, 25))
+        arrow_width, arrow_height = arrow.size
+        # self.image.paste(arrow, [x - arrow_width, y - (arrow_height // 8)], arrow)
         return x, y + font_height
