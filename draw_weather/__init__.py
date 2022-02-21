@@ -1,5 +1,6 @@
 from PIL import ImageDraw
 from datetime import datetime
+from dateutil import tz
 
 from tempest.forecast import get_forecast
 from tempest.observations import get_observations
