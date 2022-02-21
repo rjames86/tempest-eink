@@ -2,7 +2,14 @@ from venv import create
 from flask import Flask, render_template, redirect, url_for, request
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, DecimalField, TimeField
+from wtforms import (
+    StringField,
+    SubmitField,
+    SelectField,
+    DecimalField,
+    TimeField,
+    BooleanField,
+)
 from wtforms.validators import DataRequired
 
 from os import path, pardir
@@ -31,6 +38,7 @@ def create_or_get_config():
             elevation=0,
             on_time="05:00",
             off_time="23:00",
+            is_on=True,
         )
         print(default_config)
         with open(config_path, "w") as f:
@@ -49,6 +57,7 @@ class TokenForm(FlaskForm):
 
 def create_config_form(config):
     class ConfigForm(FlaskForm):
+        is_on = BooleanField("Screen On/Off", default=True)
         on_time = TimeField(
             "Time to turn on", default=datetime.strptime(config["on_time"], "%H:%M")
         )

@@ -3,7 +3,7 @@ from tempest.observations import get_observations
 from draw_weather.current_conditions import CurrentConditions
 from draw_weather.forecasts import Forecasts
 from draw_weather.charts import Charts
-from config import CONFIG_PATH, config_exists
+from config import CONFIG, CONFIG_PATH, config_exists
 
 import time
 from os import environ
@@ -57,6 +57,10 @@ def main():
         font_width, _ = font24.getsize(text)
         draw.text([epd.width // 2 - (font_width // 2), 0], text, font=font24, fill=0)
     else:
+        if not CONFIG.is_on:
+            epd.Clear()
+            epd.sleep()
+            return
 
         forecast = get_forecast()
         observations = get_observations()

@@ -24,6 +24,7 @@ class Config:
         elevation,
         on_time,
         off_time,
+        is_on,
     ):
         self.token = token
         self.device_id = device_id
@@ -36,6 +37,7 @@ class Config:
         self.elevation = elevation
         self.on_time = on_time
         self.off_time = off_time
+        self.is_on = is_on
 
     @classmethod
     def from_json(cls, json_data):
@@ -51,6 +53,7 @@ class Config:
             json_data["elevation"],
             json_data["on_time"],
             json_data["off_time"],
+            json_data["is_on"],
         )
 
 
