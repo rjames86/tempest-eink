@@ -38,7 +38,7 @@ def in_between(now, start, end):
         return start <= now or now < end
 
 def main():
-    NOW = datetime.now()
+    NOW = datetime.now().time()
     # Drawing on the Horizontal image
     Himage = Image.new("1", (epd.width, epd.height), 255)  # 255: clear the frame
 
