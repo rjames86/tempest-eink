@@ -23,13 +23,7 @@ class MockEPD:
     def Clear(self):
         pass
 
-
-if not testing:
-    from waveshare_epd import epd7in5_V2
-
-    epd = epd7in5_V2.EPD()
-else:
-    epd = MockEPD()
+from waveshare_epd import epd7in5_V2
 
 def in_between(now, start, end):
     if start <= end:
@@ -44,6 +38,7 @@ def main():
 
     # Check if config has been set up
     if not config_exists() or CONFIG.token == "":
+        epd = epd7in5_V2.EPD()
         epd.init()
         draw_not_configured(epd, Himage)
         epd.Clear()
@@ -58,6 +53,7 @@ def main():
             config['is_on'] = True
             save_config(config)
 
+            epd = epd7in5_V2.EPD()
             epd.init()
             draw_weather(epd, Himage)
             epd.Clear()
@@ -70,6 +66,7 @@ def main():
             config = CONFIG.as_json()
             config['is_on'] = False
             save_config(config)
+            epd = epd7in5_V2.EPD()
             epd.init()
             epd.Clear()
             epd.sleep()
