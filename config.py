@@ -1,7 +1,10 @@
 import json
 from os import path
+import pathlib
 
-CONFIG_PATH = "config.json"
+CURRENT_PATH = pathlib.Path(__file__).parent.absolute()
+CONFIG_PATH = path.join(CURRENT_PATH, "config.json")
+print(CONFIG_PATH)
 
 def create_or_get_config():
     if not path.exists(CONFIG_PATH):
@@ -61,6 +64,7 @@ class Config:
     @classmethod
     def from_json(cls):
         json_data = create_or_get_config()
+        print('data in from_json', json_data)
         return cls(
             json_data["token"],
             json_data["device_id"],
