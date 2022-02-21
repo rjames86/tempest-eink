@@ -32,30 +32,34 @@ class CurrentConditions:
         self.width = x1 - x0
         self.height = y1 - y0
 
+        self.left_center = self.width // 8
+        self.right_center = self.width * 3 // 8
+
         self.draw.rectangle([self.x0, self.y0, self.x1, self.y1], fill=255, outline=0)
 
     def create(self):
         # left side
-        x, y = self.draw_air_temperature(self.x0, self.y0)
-        x, y = self.draw_feels_like(x, y)
+        x, y = self.draw_air_temperature(self.left_center, self.y0)
+        x, y = self.draw_feels_like(self.left_center, y)
         y += 20  # add some padding between value
-        x, y = self.draw_high_lows(x, y)
-        x, y = self.draw_humidity(x, y)
-        x, y = self.draw_pressure(x, y)
+        x, y = self.draw_dew_point(self.left_center, y)
+        x, y = self.draw_humidity(self.left_center, y)
+        x, y = self.draw_pressure(self.left_center, y)
 
         # right side
-        x, y = self.draw_condition_icon(self.x0, self.y0)
-        x, y = self.draw_conditions(x, y)
-        x, y = self.draw_wind(x, y)
-        x, y = self.draw_uv(x, y)
-        x, y = self.draw_sunrise_sunset(x, y)
+        x, y = self.draw_condition_icon(self.right_center, self.y0)
+        x, y = self.draw_conditions(self.right_center, y)
+        x, y = self.draw_high_lows(self.right_center, y)
+        x, y = self.draw_wind(self.right_center, y)
+        x, y = self.draw_uv(self.right_center, y)
+        x, y = self.draw_sunrise_sunset(self.right_center, y)
 
     def draw_condition_icon(self, x, y):
         font_width, font_height = large_icon_font.getsize(
             self.forecast.current_conditions.get_icon_letter()
         )
 
-        x = (self.width * 3 // 8) - (font_width // 2)
+        x = x - (font_width // 2)
         y = (self.height // 8) + y
 
         self.draw.text(
@@ -70,7 +74,7 @@ class CurrentConditions:
         uv = "%s UV" % self.forecast.current_conditions.uv
         text_font_width, text_font_height = font18.getsize(uv)
 
-        text_x = (self.width * 3 // 8) - (text_font_width // 2)
+        text_x = x - (text_font_width // 2)
         text_y = 10 + y
 
         self.draw.text(
@@ -151,7 +155,7 @@ class CurrentConditions:
         conditions = "%s  " % self.forecast.current_conditions.conditions
         font_width, font_height = font18.getsize(conditions)
 
-        x = (self.width * 3 // 8) - (font_width // 2)
+        x = x - (font_width // 2)
         y = 10 + y
 
         self.draw.text(
@@ -169,8 +173,8 @@ class CurrentConditions:
             self.forecast.units.units_wind,
         )
         font_width, font_height = font18.getsize(wind_text)
-        x = (self.width * 3 // 8) - (font_width // 2)
-        y = 20 + y
+        x = x - (font_width // 2)
+        y = 10 + y
 
         self.draw.text(
             [x, y],
@@ -210,7 +214,7 @@ class CurrentConditions:
         air_temp = "%.1f" % (self.forecast.current_conditions.air_temperature)
         font_width, font_height = font96.getsize(air_temp)
 
-        x = (self.width // 8) - (font_width // 2)
+        x = x - (font_width // 2)
         y = 20 + y
 
         self.draw.text([x, y], air_temp, font=font96, fill=0)
@@ -228,10 +232,26 @@ class CurrentConditions:
         )
         font_width, font_height = font18.getsize(feels_like_temp)
 
-        x = (self.width // 8) - (font_width // 2)
+        x = x - (font_width // 2)
         y = 10 + y
 
         self.draw.text([x, y], feels_like_temp, font=font18, fill=0)
+        self.draw.text(
+            [x + font_width, y - (font_height // 4)],
+            self.forecast.units.units_temp_letter(),
+            font=small_icon_font,
+            fill=0,
+        )
+        return x, y + font_height
+
+    def draw_dew_point(self, x, y):
+        dew_point_temp = "Dew Point %.1f" % (self.forecast.current_conditions.dew_point)
+        font_width, font_height = font18.getsize(dew_point_temp)
+
+        x = x - (font_width // 2)
+        y = 10 + y
+
+        self.draw.text([x, y], dew_point_temp, font=font18, fill=0)
         self.draw.text(
             [x + font_width, y - (font_height // 4)],
             self.forecast.units.units_temp_letter(),
@@ -248,7 +268,7 @@ class CurrentConditions:
         )
         font_width, font_height = font18.getsize(high_temp)
 
-        x = (self.width // 8) - (font_width // 2)
+        x = x - (font_width // 2)
         y = 10 + y
 
         self.draw.text(
@@ -266,7 +286,7 @@ class CurrentConditions:
         )
         font_width, font_height = font18.getsize(relative_humidity)
 
-        x = (self.width // 8) - (font_width // 2)
+        x = x - (font_width // 2)
         y = 10 + y
 
         self.draw.text(
@@ -285,7 +305,7 @@ class CurrentConditions:
         )
         font_width, font_height = font18.getsize(sea_level_pressure)
 
-        x = (self.width // 8) - (font_width // 2)
+        x = x - (font_width // 2)
         y = 10 + y
 
         self.draw.text(

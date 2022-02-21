@@ -178,7 +178,7 @@ class Tempest(Observation):
 
     @property
     def rain_accumulation(self):
-        return self.values[12]
+        return Conversions.rainfall(self.values[12])
 
     @property
     def precipitation_type(self):
@@ -202,7 +202,7 @@ class Tempest(Observation):
 
     @property
     def local_day_rain_accumulation(self):
-        return self.values[18]
+        return Conversions.rainfall(self.values[18])
 
 
 class Observations(list):

@@ -4,6 +4,8 @@ from os import path
 
 import matplotlib
 
+from server.config import CONFIG
+
 matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
@@ -40,40 +42,67 @@ class Charts:
 
     def create(self):
         charts = [
-            ("Pressure", "sea_level_pressure"),
-            ("Temperature", "air_temperature"),
-            ("Humidity", "relative_humidity"),
+            ("Pressure", "Hours", "sea_level_pressure", "line"),
+            ("Temperature", "Hours", "air_temperature", "line"),
+            ("Humidity", "Hours", "relative_humidity", "line"),
+            ("Rainfall", CONFIG.units_precip, "local_day_rain_accumulation", "bar"),
         ]
         x, y = self.start_x + 10, self.start_y + 10
-        for i, (label, value) in enumerate(charts):
-            img = self.create_chart(value, label)
+        for i, (y_label, x_label, value, chart_type) in enumerate(charts):
+            img = self.create_chart(value, x_label, y_label, chart_type)
             img_width, _ = img.size
             if i == 0:
                 x = 0
             else:
-                x = x + img_width + 5
+                x = x + img_width
 
             self.image.paste(img, (x, y))
 
-    def create_chart(self, obs_type, y_label_name):
+    def create_chart(self, obs_type, x_label_name, y_label_name, chart_type):
+        if chart_type == "line":
+            return self.create_line_chart(obs_type, x_label_name, y_label_name)
+        elif chart_type == "bar":
+            return self.create_bar_chart(obs_type, x_label_name, y_label_name)
+
+    def create_line_chart(self, obs_type, x_label_name, y_label_name):
         dates = [obs.time for obs in self.observations]
         temps = [getattr(obs, obs_type) for obs in self.observations]
 
-        fig, ax = plt.subplots(figsize=[2.5, 1.75])
+        fig, ax = plt.subplots(figsize=[2, 1.75])
         ax.plot(dates, temps, color="k")
         formatter = get_label(self.observations)
         ax.xaxis.set_major_formatter(FuncFormatter(formatter))
         ax.xaxis.set_major_locator(MaxNLocator(4))
 
-        plt.xlabel("(Hours)", labelpad=0)
+        plt.xlabel("(%s)" % x_label_name, labelpad=0)
         plt.ylabel(y_label_name, rotation=0)
         ax.yaxis.set_label_coords(0.5, 1.02)
         plt.tight_layout()
 
         fig.savefig(TEMP_FILE)
+        pil_img = Image.frombytes(
+            "RGB", fig.canvas.get_width_height(), fig.canvas.tostring_rgb()
+        )
+        return pil_img
 
-        # open image as PIL object
-        img = Image.open(TEMP_FILE)
+    def create_bar_chart(self, obs_type, x_label_name, y_label_name):
+        formatter = get_label(self.observations)
+
+        dates = [formatter(obs.time, None) for obs in self.observations]
+        temps = [getattr(obs, obs_type) for obs in self.observations]
+
+        fig, ax = plt.subplots(figsize=[2, 1.75])
+        ax.bar(dates, temps, color="k")
+
+        # ax.xaxis.set_major_formatter(FuncFormatter(formatter))
+        ax.xaxis.set_major_locator(MaxNLocator(4))
+
+        plt.xlabel("(%s)" % x_label_name, labelpad=0)
+        plt.ylabel(y_label_name, rotation=0)
+        ax.yaxis.set_label_coords(0.5, 1.02)
+        plt.tight_layout()
+
+        fig.savefig(TEMP_FILE)
         pil_img = Image.frombytes(
             "RGB", fig.canvas.get_width_height(), fig.canvas.tostring_rgb()
         )

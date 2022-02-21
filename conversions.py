@@ -15,3 +15,10 @@ class Conversions:
             return p * 0.029529980164712
         else:
             return p
+
+    @staticmethod
+    def rainfall(r):
+        if CONFIG.units_precip == "in":
+            return r * 0.039370078740157
+        else:
+            return r
