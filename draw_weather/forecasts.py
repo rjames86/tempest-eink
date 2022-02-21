@@ -62,7 +62,7 @@ class Forecasts:
             )
         return dict(
             time="N/A",
-            icon="(",
+            icon=")",
             temp="N/A",
         )
 

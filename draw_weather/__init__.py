@@ -1,6 +1,7 @@
 from PIL import ImageDraw
 from datetime import datetime
 from dateutil import tz
+from server.config import CONFIG
 
 from tempest.forecast import get_forecast
 from tempest.observations import get_observations
@@ -54,6 +55,10 @@ def draw_weather(epd, image):
     now = datetime.now(tz=tz.gettz("America/Denver")).strftime("%Y-%m-%d %H:%M:%S")
     draw.text((5, 5), "Last updated: %s   " % now, font=font16, fill=0)
     draw.rectangle(full_rect, fill=255, outline=0)
+
+    station_name = CONFIG.station_name
+    font_width, _ = font16.getsize(station_name)
+    draw.text((epd.width - font_width - 5, 5), station_name, font=font16, fill=0)
 
     c = CurrentConditions(
         image,

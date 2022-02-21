@@ -20,6 +20,7 @@ default_config = dict(
     off_time="23:00",
     is_on=True,
     include_daily_forecast=True,
+    station_name="",
 )
 
 
@@ -57,6 +58,7 @@ class Config:
         off_time,
         is_on,
         include_daily_forecast=True,
+        station_name="",
         *args,
         **kwargs,
     ):
@@ -73,6 +75,7 @@ class Config:
         self.off_time = datetime.strptime(off_time, "%H:%M").time()
         self.is_on = is_on
         self.include_daily_forecast = include_daily_forecast
+        self.station_name = station_name
 
     def as_json(self):
         return dict(
@@ -89,6 +92,7 @@ class Config:
             off_time=self.off_time.strftime("%H:%M"),
             is_on=self.is_on,
             include_daily_forecast=self.include_daily_forecast,
+            station_name=self.station_name,
         )
 
     @classmethod

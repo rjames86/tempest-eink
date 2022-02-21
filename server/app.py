@@ -87,6 +87,7 @@ def get_station_data(token):
             "token": token,
             "elevation": station["station_meta"]["elevation"],
             "station_id": station["station_id"],
+            "station_name": station["name"],
         }
 
         for device in station["devices"]:
