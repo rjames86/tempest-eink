@@ -4,7 +4,14 @@ import requests
 from flask import Flask, redirect, render_template, url_for
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import DecimalField, SelectField, StringField, SubmitField, TimeField
+from wtforms import (
+    DecimalField,
+    SelectField,
+    StringField,
+    SubmitField,
+    TimeField,
+    BooleanField,
+)
 from wtforms.validators import DataRequired
 
 from config import create_or_get_config, save_config
@@ -32,6 +39,11 @@ def create_config_form(config):
         )
         off_time = TimeField(
             "Time to turn off", default=datetime.strptime(config["off_time"], "%H:%M")
+        )
+        include_daily_forecast = BooleanField(
+            "Include daily forecast",
+            default=config.get("include_daily_forecast", True),
+            description="Includes daily forecast along with hourly forecast",
         )
         units_temp = SelectField(
             "Temp Units", default=config["units_temp"], choices=[("f", "F"), ("c", "C")]
@@ -100,9 +112,7 @@ def index():
         if status_code != 200:
             message = "Error. Token may be invalid"
         else:
-            print("station info", station_info)
             config.update(station_info)
-            print("new config", config)
             save_config(config)
         return render_template(
             "index.html",
@@ -113,7 +123,6 @@ def index():
         )
 
     if config_form.validate_on_submit():
-        print("config form")
         config.update(
             dict(
                 on_time=config_form.on_time.data.strftime("%H:%M"),
@@ -124,6 +133,7 @@ def index():
                 units_precip=config_form.units_precip.data,
                 units_distance=config_form.units_distance.data,
                 elevation=float(config_form.elevation.data),
+                include_daily_forecast=config_form.include_daily_forecast.data,
             )
         )
         save_config(config)

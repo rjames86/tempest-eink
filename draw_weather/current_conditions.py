@@ -31,6 +31,8 @@ class CurrentConditions:
         # left side
         x, y = self.draw_air_temperature(self.x0, self.y0)
         x, y = self.draw_feels_like(x, y)
+        y += 20  # add some padding between value
+        x, y = self.draw_high_lows(x, y)
         x, y = self.draw_humidity(x, y)
         x, y = self.draw_pressure(x, y)
 
@@ -46,7 +48,7 @@ class CurrentConditions:
         )
 
         x = (self.width * 3 // 8) - (font_width // 2)
-        y = 30 + (self.height // 8) + y
+        y = (self.height // 8) + y
 
         self.draw.text(
             [x, y],
@@ -147,7 +149,7 @@ class CurrentConditions:
         font_width, font_height = font96.getsize(air_temp)
 
         x = (self.width // 8) - (font_width // 2)
-        y = 30 + y
+        y = 20 + y
 
         self.draw.text([x, y], air_temp, font=font96, fill=0)
         self.draw.text(
@@ -168,6 +170,32 @@ class CurrentConditions:
         y = 10 + y
 
         self.draw.text([x, y], feels_like_temp, font=font18, fill=0)
+        self.draw.text(
+            [x + font_width, y - (font_height // 4)],
+            self.forecast.units.units_temp_letter(),
+            font=small_icon_font,
+            fill=0,
+        )
+        return x, y + font_height
+
+    def draw_high_lows(self, x, y):
+        today_forecast = self.forecast.forecast.daily[0]
+        high_temp = "H: %.0f L: %.0f" % (
+            today_forecast.air_temp_high,
+            today_forecast.air_temp_low,
+        )
+        font_width, font_height = font18.getsize(high_temp)
+
+        x = (self.width // 8) - (font_width // 2)
+        y = 10 + y
+
+        self.draw.text(
+            [x, y],
+            high_temp,
+            font=font18,
+            fill=0,
+        )
+
         return x, y + font_height
 
     def draw_humidity(self, x, y):
@@ -177,7 +205,7 @@ class CurrentConditions:
         font_width, font_height = font18.getsize(relative_humidity)
 
         x = (self.width // 8) - (font_width // 2)
-        y = 40 + y
+        y = 10 + y
 
         self.draw.text(
             [x, y],

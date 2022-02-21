@@ -19,6 +19,7 @@ default_config = dict(
     on_time="05:00",
     off_time="23:00",
     is_on=True,
+    include_daily_forecast=True,
 )
 
 
@@ -31,6 +32,7 @@ def create_or_get_config(recreate=False):
 
 
 def save_config(new_config):
+    print("new config", new_config)
     with open(CONFIG_PATH, "w") as f:
         json.dump(new_config, f)
 
@@ -54,6 +56,7 @@ class Config:
         on_time,
         off_time,
         is_on,
+        include_daily_forecast=True,
         *args,
         **kwargs,
     ):
@@ -69,6 +72,7 @@ class Config:
         self.on_time = datetime.strptime(on_time, "%H:%M").time()
         self.off_time = datetime.strptime(off_time, "%H:%M").time()
         self.is_on = is_on
+        self.include_daily_forecast = include_daily_forecast
 
     def as_json(self):
         return dict(
@@ -84,6 +88,7 @@ class Config:
             on_time=self.on_time.strftime("%H:%M"),
             off_time=self.off_time.strftime("%H:%M"),
             is_on=self.is_on,
+            include_daily_forecast=self.include_daily_forecast,
         )
 
     @classmethod
