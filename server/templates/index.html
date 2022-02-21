@@ -25,6 +25,7 @@ Tempest Weather Config
             <h2>Authenticate</h1>
             {{ wtf.quick_form(form) }}
         {% else %}
+            <h2>{{config.station_name}}</h1>
             {{ wtf.quick_form(config_form) }}
         {% endif %}
     </div>
