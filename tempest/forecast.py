@@ -1,9 +1,7 @@
-from os import environ
-
+from config import CONFIG
 from tempest.request import FORECAST_URL, fetch_data
 
-TOKEN = environ["TEMPEST_TOKEN"]
-
+TOKEN = CONFIG.token
 
 class BetterForecastHourlyForecast:
     def __init__(
@@ -379,11 +377,11 @@ def get_forecast():
         dict(
             station_id=55396,
             token=TOKEN,
-            units_temp="f",
-            units_wind="mph",
-            units_pressure="inhg",
-            units_precip="in",
-            units_distance="mi",
+            units_temp=CONFIG.units_temp,
+            units_wind=CONFIG.units_wind,
+            units_pressure=CONFIG.units_pressure,
+            units_precip=CONFIG.units_precip,
+            units_distance=CONFIG.units_distance,
         ),
     )
     return BetterForecast.from_response(resp)

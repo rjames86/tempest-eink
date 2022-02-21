@@ -1,17 +1,13 @@
+from conversions import Conversions
 from tempest.request import fetch_data, DEVICE_OBSERVATIONS_URL
 from datetime import datetime, timedelta
-import math
-
-from os import environ
-
+from config import CONFIG
 
 NOW = datetime.utcnow()
 ONE_DAY_AGO = NOW - timedelta(hours=24)
 
-# FIXME need to fetch or store this somehow
-DEVICE_ID = 155234
-# FIXME
-TOKEN = environ["TEMPEST_TOKEN"]
+DEVICE_ID = CONFIG.device_id
+TOKEN = CONFIG.token
 
 
 class Observation:
@@ -147,7 +143,10 @@ class Tempest(Observation):
     @property
     def sea_level_pressure(self):
         # https://weatherflow.github.io/Tempest/api/derived-metric-formulas.html
-        e = 1065.0316162109375  # hard coded elevation
+
+        # hard coded elevation
+        # TODO full station info to get actual elevation
+        e = CONFIG.elevation
         sea_level_pressure = self.pressure * pow(
             1
             + pow(1013.25 / self.pressure, 1.865825 / 9.80665) * (0.0065 * e / 288.15),
@@ -161,7 +160,8 @@ class Tempest(Observation):
 
     @property
     def air_temperature(self):
-        return (self.values[7] * 1.8) + 32
+        air_temp = self.values[7]
+        return Conversions.air_temp(air_temp)
 
     @property
     def relative_humidity(self):

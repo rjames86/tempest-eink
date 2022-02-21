@@ -131,3 +131,4 @@ dmypy.json
 # Ignore files added to this directory
 temp/*
 !temp
+config.json

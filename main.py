@@ -8,6 +8,8 @@ import time
 from os import environ
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
+from dateutil import tz
+
 import logging
 
 testing = environ.get("TESTING", False)
@@ -56,8 +58,6 @@ def main():
     x1, y1 = (epd.width - side_padding), ((epd.height - top_padding) * 2 // 3)
 
     full_rect = [x0, y0, x1, y1]
-    half_rect = [x0, y0, x1 // 2, y1]
-    quarter_rect = [x0, y0, x1 // 4, y1]
 
     # We create the charts before anything else. Since there's
     # some weird padding issues, I want the rectangle to draw
@@ -65,7 +65,7 @@ def main():
     charts = Charts(Himage, observations, 0, y1)
     charts.create()
 
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now = datetime.now(tz=tz.gettz("America/Denver")).strftime("%Y-%m-%d %H:%M:%S")
     draw.text((5, 5), "Last updated: %s   " % now, font=font12, fill=0)
     draw.rectangle(full_rect, fill=255, outline=0)
 
