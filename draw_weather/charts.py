@@ -3,6 +3,8 @@ import pathlib
 from os import path
 
 import matplotlib
+import numpy as np
+from scipy.interpolate import make_interp_spline
 
 from server.config import CONFIG
 
@@ -82,8 +84,17 @@ class Charts:
         dates = [obs.time for obs in self.observations]
         temps = [getattr(obs, obs_type) for obs in self.observations]
 
+        x = np.array(dates)
+        y = np.array(temps)
+
+        # Returns evenly spaced numbers
+        # over a specified interval.
+        X_Y_Spline = make_interp_spline(x, y)
+        X_ = np.linspace(x.min(), x.max(), 50)
+        Y_ = X_Y_Spline(X_)
+
         fig, ax = plt.subplots(figsize=[self.chart_width, self.chart_height])
-        ax.plot(dates, temps, color="k")
+        ax.plot(X_, Y_, color="k", markevery=500)
         formatter = get_label(self.observations)
         ax.xaxis.set_major_formatter(FuncFormatter(formatter))
         ax.xaxis.set_major_locator(MaxNLocator(4))
