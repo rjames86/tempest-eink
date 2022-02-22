@@ -59,9 +59,7 @@ class Charts:
             or CONFIG.always_show_rain
         ):
             self.chart_width = 2
-            charts.append(
-                ("Rainfall", CONFIG.units_precip, "local_day_rain_accumulation", "bar")
-            )
+            charts.append(("Rainfall", CONFIG.units_precip, "rain_accumulation", "bar"))
 
         x, y = self.start_x + 10, self.start_y + 10
         for i, (y_label, x_label, value, chart_type) in enumerate(charts):
