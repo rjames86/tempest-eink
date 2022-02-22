@@ -27,14 +27,12 @@ default_config = dict(
 
 def create_or_get_config(recreate=False):
     if not path.exists(CONFIG_PATH) or recreate is True:
-        print("config doesnt exist")
         with open(CONFIG_PATH, "w") as f:
             json.dump(default_config, f)
     return json.load(open(CONFIG_PATH))
 
 
 def save_config(new_config):
-    print("new config", new_config)
     with open(CONFIG_PATH, "w") as f:
         json.dump(new_config, f)
 
@@ -102,7 +100,6 @@ class Config:
     @classmethod
     def from_json(cls):
         json_data = create_or_get_config()
-        print("data in from_json", json_data)
         return cls(**json_data)
 
 
