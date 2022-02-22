@@ -75,8 +75,10 @@ def main():
             epd.init()
             draw_weather(epd, Himage)
             epd.Clear()
+            print(NOW, "Writing to display...")
             epd.display(epd.getbuffer(Himage))
             time.sleep(10)
+            print(NOW, "Putting screen to sleep....")
             epd.sleep()
 
         elif not in_between(NOW, CONFIG.on_time, CONFIG.off_time) and CONFIG.is_on:
