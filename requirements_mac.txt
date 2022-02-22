@@ -7,5 +7,4 @@ Pillow==9.0.1
 python_dateutil==2.8.2
 requests==2.26.0
 scipy==1.8.0
-spidev==3.5
 WTForms==3.0.1
