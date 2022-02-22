@@ -145,22 +145,22 @@ class Tempest(Observation):
         # https://weatherflow.github.io/Tempest/api/derived-metric-formulas.html
         station_height_m = CONFIG.elevation
         station_pressure_mb = self.pressure
-        sea_level_pressure = 1013.25
+        standard_sea_level_pressure = 1013.25
         gas_content_dry_air = 287.05
         atmosphere_lapse_rate = 0.0065
         gravity = 9.80665
         sea_level_temperature = 288.15
 
-        e = CONFIG.elevation
         sea_level_pressure = station_pressure_mb * pow(
             1
             + pow(
-                sea_level_pressure / station_pressure_mb,
-                gas_content_dry_air * atmosphere_lapse_rate / gravity,
+                standard_sea_level_pressure / station_pressure_mb,
+                (gas_content_dry_air * atmosphere_lapse_rate) / gravity,
             )
             * (atmosphere_lapse_rate * station_height_m / sea_level_temperature),
-            gravity / gas_content_dry_air * atmosphere_lapse_rate,
+            gravity / (gas_content_dry_air * atmosphere_lapse_rate),
         )
+
         return Conversions.pressure(sea_level_pressure)
 
     @property
