@@ -168,7 +168,7 @@ def show_config():
     return jsonify(CONFIG.as_json())
 
 
-@app.route("/config/delete", methods=["GET"])
+@app.route("/config/delete", methods=["POST"])
 def delete_config():
     create_or_get_config(recreate=True)
     return redirect(url_for("index"))
