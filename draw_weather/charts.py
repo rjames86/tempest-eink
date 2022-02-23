@@ -54,10 +54,8 @@ class Charts:
         ]
 
         # Let's see if there's any rain acumulation. If so, we can add the chart
-        if (
-            self.observations.total_local_rain_acumulation > 0
-            or CONFIG.always_show_rain
-        ):
+        print(self.observations.total_rain_acumulation, CONFIG.always_show_rain)
+        if self.observations.total_rain_acumulation > 0 or CONFIG.always_show_rain:
             self.chart_width = 2
             charts.append(("Rainfall", CONFIG.units_precip, "rain_accumulation", "bar"))
 
