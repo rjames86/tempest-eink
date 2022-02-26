@@ -164,7 +164,7 @@ def index():
 
 @app.route("/config/show", methods=["GET"])
 def show_config():
-    create_or_get_config(recreate=True)
+    create_or_get_config()
     return jsonify(CONFIG.as_json())
 
 
