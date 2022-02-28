@@ -3,6 +3,7 @@ from draw_weather import (
     draw_not_configured,
     draw_weather,
 )
+from logger import logger
 
 import time
 from os import environ
@@ -42,7 +43,7 @@ def in_between(now, start, end):
 
 def main():
     NOW = datetime.now().time()
-    print(NOW, "initializing epd")
+    logger.info("initializing epd")
     epd = get_epd()
     # Drawing on the Horizontal image
     Himage = Image.new("1", (epd.width, epd.height), 255)  # 255: clear the frame
@@ -66,7 +67,7 @@ def main():
         epd.sleep()
     else:
         if in_between(NOW, CONFIG.on_time, CONFIG.off_time):
-            print(NOW, "Starting up...")
+            logger.info("Starting up...")
 
             config = CONFIG.as_json()
             config["is_on"] = True
@@ -75,14 +76,14 @@ def main():
             epd.init()
             draw_weather(epd, Himage)
             epd.Clear()
-            print(NOW, "Writing to display...")
+            logger.info("Writing to display...")
             epd.display(epd.getbuffer(Himage))
             time.sleep(10)
-            print(NOW, "Putting screen to sleep....")
+            logger.info("Putting screen to sleep....")
             epd.sleep()
 
         elif not in_between(NOW, CONFIG.on_time, CONFIG.off_time) and CONFIG.is_on:
-            print(NOW, "Sleeping time. Don't do anything")
+            logger.info("Sleeping time. Don't do anything")
             config = CONFIG.as_json()
             config["is_on"] = False
             save_config(config)
@@ -91,7 +92,7 @@ def main():
             epd.sleep()
             return
         else:
-            print(NOW, "sleeping and already off...")
+            logger.info("sleeping and already off...")
             return
 
 

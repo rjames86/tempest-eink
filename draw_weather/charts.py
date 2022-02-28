@@ -54,7 +54,6 @@ class Charts:
         ]
 
         # Let's see if there's any rain acumulation. If so, we can add the chart
-        print(self.observations.total_rain_acumulation, CONFIG.always_show_rain)
         if self.observations.total_rain_acumulation > 0 or CONFIG.always_show_rain:
             self.chart_width = 2
             charts.append(("Rainfall", CONFIG.units_precip, "rain_accumulation", "bar"))
@@ -95,7 +94,7 @@ class Charts:
         ax.xaxis.set_major_formatter(FuncFormatter(formatter))
         ax.xaxis.set_major_locator(MaxNLocator(4))
 
-        plt.xlabel("(%s)" % x_label_name, labelpad=0)
+        plt.xlabel(x_label_name, labelpad=0)
         plt.ylabel(y_label_name, rotation=0)
         ax.yaxis.set_label_coords(0.5, 1.02)
         plt.tight_layout()

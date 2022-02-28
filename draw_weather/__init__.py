@@ -1,15 +1,16 @@
 from PIL import ImageDraw
 from datetime import datetime
 from dateutil import tz
-from server.config import CONFIG
 
+from logger import logger
+from server.config import CONFIG
 from tempest.forecast import get_forecast
 from tempest.observations import get_observations
 from draw_weather.current_conditions import CurrentConditions
 from draw_weather.forecasts import Forecasts
 from draw_weather.charts import Charts
 from fonts import (
-    font16,
+    font18,
     font24,
     font48,
 )
@@ -35,7 +36,9 @@ def draw_not_configured(epd, image):
 def draw_weather(epd, image):
     draw = ImageDraw.Draw(image)
 
+    logger.info("Fetching forecast")
     forecast = get_forecast()
+    logger.info("Fetching observations")
     observations = get_observations()
 
     # Create the bounding box for current conditions
@@ -53,13 +56,16 @@ def draw_weather(epd, image):
     charts.create()
 
     now = datetime.now(tz=tz.gettz("America/Denver")).strftime("%Y-%m-%d %H:%M:%S")
-    draw.text((5, 5), "Last updated: %s   " % now, font=font16, fill=0)
+    station_name = CONFIG.station_name
+    font_width, _ = font18.getsize(station_name)
+    draw.text((5, 5), station_name, font=font18, fill=0)
+
+    last_updated = "Last updated: %s   " % now
+    font_width, _ = font18.getsize(last_updated)
+    draw.text((epd.width - font_width - 5, 5), last_updated, font=font18, fill=0)
     draw.rectangle(full_rect, fill=255, outline=0)
 
-    station_name = CONFIG.station_name
-    font_width, _ = font16.getsize(station_name)
-    draw.text((epd.width - font_width - 5, 5), station_name, font=font16, fill=0)
-
+    logger.info("Creating current conditions")
     c = CurrentConditions(
         image,
         forecast,
@@ -68,6 +74,7 @@ def draw_weather(epd, image):
     )
     c.create()
 
+    logger.info("Creating forecasts")
     f = Forecasts(
         image,
         forecast,

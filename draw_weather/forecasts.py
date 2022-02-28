@@ -51,14 +51,14 @@ class Forecasts:
             return dict(
                 time="%s:00" % forecast.local_hour,
                 icon=forecast.get_icon_letter(),
-                temp="%.1f" % (forecast.air_temperature),
+                temp="%.0f" % (forecast.air_temperature),
             )
         elif isinstance(forecast, BetterForecastDailyForecast):
             return dict(
                 time=forecast.day_name,
                 icon=forecast.get_icon_letter(),
-                temp="H: %.1f" % (forecast.air_temp_high),
-                temp_low="L: %.1f" % (forecast.air_temp_low),
+                temp="H: %.0f" % (forecast.air_temp_high),
+                temp_low="L: %.0f" % (forecast.air_temp_low),
             )
         return dict(
             time="N/A",

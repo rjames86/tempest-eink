@@ -205,7 +205,7 @@ class BetterForecastUnits:
         self.units_temp = units_temp
         self.units_wind = units_wind
         self.units_precip = units_precip
-        self.units_pressure = units_pressure
+        self._units_pressure = units_pressure
         self.units_distance = units_distance
         self.units_brightness = units_brightness
         self.units_solar_radiation = units_solar_radiation
@@ -225,6 +225,12 @@ class BetterForecastUnits:
             json_data.get("units_other"),
             json_data.get("units_air_density"),
         )
+
+    @property
+    def units_pressure(self):
+        if self._units_pressure == "inhg":
+            return "inHg"
+        return self._units_pressure
 
     def units_temp_letter(self):
         if self.units_temp == "f":
