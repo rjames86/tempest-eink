@@ -18,7 +18,7 @@ from datetime import datetime
 logger.debug("Finished loading package imports")
 
 testing = environ.get("TESTING", False)
-logger.info("is testing: %s" + testing)
+logger.info("is testing: %s" % testing)
 
 
 class MockEPD:

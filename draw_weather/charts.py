@@ -10,7 +10,12 @@ from server.config import CONFIG
 
 matplotlib.use("Agg")
 
-import matplotlib.pyplot as plt
+from matplotlib.pyplot import (
+    subplots as plt_subplots,
+    tight_layout as plt_tight_layout,
+    xlabel as plt_xlabel,
+    ylabel as plt_ylabel,
+)
 from matplotlib.ticker import MaxNLocator, FuncFormatter
 from datetime import datetime
 
@@ -88,16 +93,16 @@ class Charts:
         X_ = np.linspace(x.min(), x.max(), 50)
         Y_ = X_Y_Spline(X_)
 
-        fig, ax = plt.subplots(figsize=[self.chart_width, self.chart_height])
+        fig, ax = plt_subplots(figsize=[self.chart_width, self.chart_height])
         ax.plot(X_, Y_, color="k", markevery=500)
         formatter = get_label(self.observations)
         ax.xaxis.set_major_formatter(FuncFormatter(formatter))
         ax.xaxis.set_major_locator(MaxNLocator(4))
 
-        plt.xlabel(x_label_name, labelpad=0)
-        plt.ylabel(y_label_name, rotation=0)
+        plt_xlabel(x_label_name, labelpad=0)
+        plt_ylabel(y_label_name, rotation=0)
         ax.yaxis.set_label_coords(0.5, 1.02)
-        plt.tight_layout()
+        plt_tight_layout()
 
         fig.savefig(TEMP_FILE)
         pil_img = Image.frombytes(
@@ -111,16 +116,16 @@ class Charts:
         dates = [formatter(obs.time, None) for obs in self.observations]
         temps = [getattr(obs, obs_type) for obs in self.observations]
 
-        fig, ax = plt.subplots(figsize=[self.chart_width, self.chart_height])
+        fig, ax = plt_subplots(figsize=[self.chart_width, self.chart_height])
         ax.bar(dates, temps, color="k")
 
         # ax.xaxis.set_major_formatter(FuncFormatter(formatter))
         ax.xaxis.set_major_locator(MaxNLocator(4))
 
-        plt.xlabel("(%s)" % x_label_name, labelpad=0)
-        plt.ylabel(y_label_name, rotation=0)
+        plt_xlabel("(%s)" % x_label_name, labelpad=0)
+        plt_ylabel(y_label_name, rotation=0)
         ax.yaxis.set_label_coords(0.5, 1.02)
-        plt.tight_layout()
+        plt_tight_layout()
 
         fig.savefig(TEMP_FILE)
         pil_img = Image.frombytes(
