@@ -8,14 +8,14 @@ from draw_weather import (
     draw_weather,
 )
 
-logger.info("Finished loading local imports")
+logger.debug("Finished loading local imports")
 
 import time
 from os import environ
 from PIL import Image
 from datetime import datetime
 
-logger.info("Finished loading package imports")
+logger.debug("Finished loading package imports")
 
 testing = environ.get("TESTING", False)
 logger.info("is testing: %s" + testing)
