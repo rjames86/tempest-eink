@@ -15,7 +15,7 @@ from PIL import Image
 from datetime import datetime
 
 testing = environ.get("TESTING", False)
-logger.info("is testing:", testing)
+logger.info("is testing: " + testing)
 
 
 class MockEPD:
