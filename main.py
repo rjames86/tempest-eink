@@ -1,9 +1,13 @@
+from logger import logger
+
+logger.info("Starting up...")
+
 from server.config import CONFIG, config_exists, save_config
 from draw_weather import (
     draw_not_configured,
     draw_weather,
 )
-from logger import logger
+
 
 import time
 from os import environ
@@ -11,7 +15,7 @@ from PIL import Image
 from datetime import datetime
 
 testing = environ.get("TESTING", False)
-print("is testing:", testing)
+logger.info("is testing:", testing)
 
 
 class MockEPD:
