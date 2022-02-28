@@ -211,7 +211,7 @@ class CurrentConditions:
         return x, y + font_height
 
     def draw_air_temperature(self, x, y):
-        air_temp = "%.1f" % (self.forecast.current_conditions.air_temperature)
+        air_temp = "%.0f" % (self.forecast.current_conditions.air_temperature)
         font_width, font_height = font96.getsize(air_temp)
 
         x = x - (font_width // 2)
@@ -227,6 +227,13 @@ class CurrentConditions:
         return x, y + font_height
 
     def draw_feels_like(self, x, y):
+        # If the feels like is the same, we don't need to see it
+        if (
+            self.forecast.current_conditions.feels_like
+            == self.forecast.current_conditions.air_temperature
+        ):
+            return x, y
+
         feels_like_temp = "Feels Like %.0f" % (
             self.forecast.current_conditions.feels_like
         )
