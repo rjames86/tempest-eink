@@ -1,8 +1,11 @@
 import logging
 import sys
+from os import environ
+
+LOGLEVEL = environ.get("LOGLEVEL", "INFO").upper()
 
 logging.basicConfig(
-    level=logging.INFO,
+    level=LOGLEVEL,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[logging.FileHandler("tempest.log"), logging.StreamHandler(sys.stdout)],
 )
