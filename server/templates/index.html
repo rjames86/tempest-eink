@@ -26,7 +26,6 @@ Tempest Weather Config
         {% else %}
             <h2>{{config.station_name}}</h1>
             <p>Token {{config.get('token')}}</p>
-            <p>Currently on: {{"Yes" if config.is_on else "No" }}</p>
             {{ wtf.quick_form(config_form) }}
         {% endif %}
     </div>
