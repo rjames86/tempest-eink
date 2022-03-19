@@ -18,7 +18,6 @@ default_config = dict(
     elevation=0,
     on_time="05:00",
     off_time="23:00",
-    is_on=True,
     include_daily_forecast=True,
     station_name="",
     always_show_rain=False,
@@ -55,7 +54,6 @@ class Config:
         elevation,
         on_time,
         off_time,
-        is_on,
         include_daily_forecast=default_config["include_daily_forecast"],
         station_name="",
         always_show_rain=default_config["always_show_rain"],
@@ -73,7 +71,6 @@ class Config:
         self.elevation = elevation
         self.on_time = datetime.strptime(on_time, "%H:%M").time()
         self.off_time = datetime.strptime(off_time, "%H:%M").time()
-        self.is_on = is_on
         self.include_daily_forecast = include_daily_forecast
         self.station_name = station_name
         self.always_show_rain = always_show_rain
@@ -91,7 +88,6 @@ class Config:
             elevation=self.elevation,
             on_time=self.on_time.strftime("%H:%M"),
             off_time=self.off_time.strftime("%H:%M"),
-            is_on=self.is_on,
             include_daily_forecast=self.include_daily_forecast,
             station_name=self.station_name,
             always_show_rain=self.always_show_rain,

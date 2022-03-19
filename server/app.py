@@ -147,6 +147,7 @@ def index():
                 always_show_rain=config_form.always_show_rain.data,
             )
         )
+        print(config)
         save_config(config)
         return render_template(
             "index.html",
