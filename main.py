@@ -73,7 +73,7 @@ def main():
         time.sleep(10)
         epd.sleep()
     else:
-        if in_between(NOW, CONFIG.on_time, CONFIG.off_time):
+        if in_between(NOW, CONFIG.on_time, CONFIG.off_time) and CONFIG.is_on:
             logger.info("Starting up...")
 
             config = CONFIG.as_json()
@@ -98,6 +98,12 @@ def main():
             epd.Clear()
             epd.sleep()
             return
+        elif not CONFIG.is_on:
+            logger.info("Screen should be off. Turning off....")
+            epd.init()
+            epd.Clear()
+            epd.sleep()
+            return            
         else:
             logger.info("sleeping and already off...")
             return
