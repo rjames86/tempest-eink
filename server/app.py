@@ -136,7 +136,7 @@ def index():
             dict(
                 on_time=config_form.on_time.data.strftime("%H:%M"),
                 off_time=config_form.off_time.data.strftime("%H:%M"),
-                on_off=config_form.on_off.data,
+                is_on=config_form.on_off.data,
                 units_temp=config_form.units_temp.data,
                 units_wind=config_form.units_wind.data,
                 units_pressure=config_form.units_pressure.data,
