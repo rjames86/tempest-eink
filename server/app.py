@@ -36,7 +36,6 @@ class TokenForm(FlaskForm):
 
 def create_config_form(config):
     class ConfigForm(FlaskForm):
-        on_off = BooleanField("Enabled", default=config["is_on"])
         on_time = TimeField(
             "Time to turn on", default=datetime.strptime(config["on_time"], "%H:%M")
         )
