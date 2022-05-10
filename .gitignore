@@ -128,8 +128,11 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+.DS_Store
+
 # Ignore files added to this directory
 temp/*
 !temp
 config.json
 tempest.log
+

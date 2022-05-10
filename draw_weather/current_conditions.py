@@ -1,7 +1,8 @@
 from cgitb import small
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageFont
 import pathlib
 from os import path
+from draw_weather.draw import Draw
 from fonts import (
     font18,
     font96,
@@ -17,7 +18,7 @@ ARROW_PATH = path.join(BASE_PATH, "images", "cc-pressure-trend-arrow.png")
 class CurrentConditions:
     def __init__(self, image, forecast, observations, rectangle_boundary) -> None:
         self.image = image
-        self.draw = ImageDraw.Draw(image)
+        self.draw = Draw(image)
 
         self.forecast = forecast
         self.observations = observations
@@ -252,7 +253,11 @@ class CurrentConditions:
         return x, y + font_height
 
     def draw_dew_point(self, x, y):
-        dew_point_temp = "Dew Point %.1f" % (self.forecast.current_conditions.dew_point)
+        dew_point = self.forecast.current_conditions.dew_point
+        if dew_point is not None:
+            dew_point_temp = "Dew Point %.1f" % (dew_point)
+        else:
+            dew_point_temp = "Dew Point: ??"
         font_width, font_height = font18.getsize(dew_point_temp)
 
         x = x - (font_width // 2)

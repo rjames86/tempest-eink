@@ -150,6 +150,9 @@ class Tempest(Observation):
         atmosphere_lapse_rate = 0.0065
         gravity = 9.80665
         sea_level_temperature = 288.15
+        
+        if station_pressure_mb is None:
+            return None
 
         sea_level_pressure = station_pressure_mb * pow(
             1
@@ -170,6 +173,8 @@ class Tempest(Observation):
     @property
     def air_temperature(self):
         air_temp = self.values[7]
+        if air_temp is None:
+            return None
         return Conversions.air_temp(air_temp)
 
     @property
@@ -190,7 +195,10 @@ class Tempest(Observation):
 
     @property
     def rain_accumulation(self):
-        return Conversions.rainfall(self.values[12])
+        rain_accum = self.values[12]
+        if rain_accum is None:
+            return None
+        return Conversions.rainfall(rain_accum)
 
     @property
     def precipitation_type(self):
@@ -214,7 +222,10 @@ class Tempest(Observation):
 
     @property
     def local_day_rain_accumulation(self):
-        return Conversions.rainfall(self.values[18])
+        local_rain_accum = self.values[18]
+        if local_rain_accum is None:
+            return None
+        return Conversions.rainfall(local_rain_accum)
 
 
 class Observations(list):

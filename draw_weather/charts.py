@@ -58,21 +58,24 @@ class Charts:
             ("Humidity", "Hours", "relative_humidity", "line"),
         ]
 
-        # Let's see if there's any rain acumulation. If so, we can add the chart
+        # Let's see if there's any rain accumulation. If so, we can add the chart
         if self.observations.total_rain_acumulation > 0 or CONFIG.always_show_rain:
             self.chart_width = 2
             charts.append(("Rainfall", CONFIG.units_precip, "rain_accumulation", "bar"))
 
         x, y = self.start_x + 10, self.start_y + 10
         for i, (y_label, x_label, value, chart_type) in enumerate(charts):
-            img = self.create_chart(value, x_label, y_label, chart_type)
-            img_width, _ = img.size
-            if i == 0:
-                x = 0
-            else:
-                x = x + img_width
-
-            self.image.paste(img, (x, y))
+            try:
+                img = self.create_chart(value, x_label, y_label, chart_type)
+                img_width, _ = img.size
+                if i == 0:
+                    x = 0
+                else:
+                    x = x + img_width
+    
+                self.image.paste(img, (x, y))
+            except:
+                continue
 
     def create_chart(self, obs_type, x_label_name, y_label_name, chart_type):
         if chart_type == "line":

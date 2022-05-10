@@ -6,13 +6,13 @@ from fonts import (
 )
 from server.config import CONFIG
 from tempest.forecast import BetterForecastDailyForecast, BetterForecastHourlyForecast
-
+from draw_weather.draw import Draw
 
 class Forecasts:
     def __init__(
         self, image, forecast, observations, rectangle_boundary, top_padding
     ) -> None:
-        self.draw = ImageDraw.Draw(image)
+        self.draw = Draw(image)
 
         self.forecast = forecast
         self.observations = observations

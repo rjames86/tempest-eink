@@ -14,10 +14,11 @@ from fonts import (
     font24,
     font48,
 )
+from draw_weather.draw import Draw
 
 
 def draw_not_configured(epd, image):
-    draw = ImageDraw.Draw(image)
+    draw = Draw(image)
 
     text = "Tempest Weatherflow"
     font_width, font_height = font48.getsize(text)
@@ -34,7 +35,7 @@ def draw_not_configured(epd, image):
 
 
 def draw_weather(epd, image):
-    draw = ImageDraw.Draw(image)
+    draw = Draw(image)
 
     logger.info("Fetching forecast")
     forecast = get_forecast()
