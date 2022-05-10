@@ -64,44 +64,49 @@ def main():
         Himage.show()
         return
 
-    if in_between(NOW, CONFIG.on_time, CONFIG.off_time):
-        logger.info("Starting up...")
-        
-        # Check if config has been set up
-        if not config_exists() or CONFIG.token == "":
+    try:
+        if in_between(NOW, CONFIG.on_time, CONFIG.off_time):
+            logger.info("Starting up...")
+            
+            # Check if config has been set up
+            if not config_exists() or CONFIG.token == "":
+                epd.init()
+                draw_not_configured(epd, Himage)
+                epd.Clear()
+                epd.display(epd.getbuffer(Himage))
+                time.sleep(10)
+                epd.sleep()
+                return
+
+            config = CONFIG.as_json()
+            config["is_on"] = True
+            save_config(config)
+
             epd.init()
-            draw_not_configured(epd, Himage)
+            draw_weather(epd, Himage)
             epd.Clear()
+            logger.info("Writing to display...")
             epd.display(epd.getbuffer(Himage))
             time.sleep(10)
+            logger.info("Putting screen to sleep....")
             epd.sleep()
+
+        elif not in_between(NOW, CONFIG.on_time, CONFIG.off_time):
+            logger.info("Sleeping time. Don't do anything")
+            config = CONFIG.as_json()
+            config["is_on"] = False
+            save_config(config)
+            epd.init()
+            epd.Clear()
+            epd.sleep()
+            return     
+        else:
+            logger.info("sleeping and already off...")
             return
-
-        config = CONFIG.as_json()
-        config["is_on"] = True
-        save_config(config)
-
-        epd.init()
-        draw_weather(epd, Himage)
-        epd.Clear()
-        logger.info("Writing to display...")
-        epd.display(epd.getbuffer(Himage))
-        time.sleep(10)
-        logger.info("Putting screen to sleep....")
-        epd.sleep()
-
-    elif not in_between(NOW, CONFIG.on_time, CONFIG.off_time):
-        logger.info("Sleeping time. Don't do anything")
-        config = CONFIG.as_json()
-        config["is_on"] = False
-        save_config(config)
+    except:
         epd.init()
         epd.Clear()
         epd.sleep()
-        return     
-    else:
-        logger.info("sleeping and already off...")
-        return
 
 
 if __name__ == "__main__":
