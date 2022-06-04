@@ -4,6 +4,6 @@
 echo "Restarting tempest service"
 sudo systemctl restart tempest
 
-chmod +x update.sh
+chmod a+x update.sh
 
 
