@@ -6,6 +6,4 @@ sudo systemctl restart tempest
 
 chmod +x update.sh
 
-/home/pi/tempest-eink/venv/bin/python /home/pi/tempest-eink/main.py
-
 
