@@ -1,6 +1,7 @@
 from PIL import Image
 import pathlib
 from os import path
+from logger import logger
 
 import matplotlib
 import numpy as np
@@ -74,7 +75,8 @@ class Charts:
                     x = x + img_width
     
                 self.image.paste(img, (x, y))
-            except:
+            except Exception as e:
+                logger.error("Failed to draw chargs", e)
                 continue
 
     def create_chart(self, obs_type, x_label_name, y_label_name, chart_type):
