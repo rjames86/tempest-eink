@@ -20,7 +20,6 @@ Tempest Weather Config
   <div class="row">
       <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
         <h1 class="center">Tempest Weather Station Config</h1>
-        <p>Enabled: {{config.is_on}}</p>
         {% if 'token' not in config or config['token'] == "" %}
             <h2>Authenticate</h1>
             {{ wtf.quick_form(form) }}

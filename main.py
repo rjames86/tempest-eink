@@ -57,7 +57,6 @@ def main():
 
     if testing:
         config = CONFIG.as_json()
-        config["is_on"] = True
         save_config(config)
 
         draw_weather(epd, Himage)
@@ -79,7 +78,6 @@ def main():
                 return
 
             config = CONFIG.as_json()
-            config["is_on"] = True
             save_config(config)
 
             epd.init()
@@ -94,7 +92,6 @@ def main():
         elif not in_between(NOW, CONFIG.on_time, CONFIG.off_time):
             logger.info("Sleeping time. Don't do anything")
             config = CONFIG.as_json()
-            config["is_on"] = False
             save_config(config)
             epd.init()
             epd.Clear()
